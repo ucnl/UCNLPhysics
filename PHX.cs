@@ -4,11 +4,13 @@ namespace UCNLPhysics
 {
     public static class PHX
     {
-        public static readonly double PHX_FWTR_DENSITY_KGM3    = 998.02;  // Fresh water density at 20°C
-        public static readonly double PHX_FWTR_SOUND_SPEED_MPS = 1500.0;  // Default speed of sound in water
-        public static readonly double PHX_FWTR_SALINITY_PSU    = 0.0;     // Default water salinity, PSU
-        public static readonly double PHX_GRAVITY_ACC_MPS2     = 9.80665; // ISO 80000-3:2006
-        public static readonly double PHX_ATM_PRESSURE_MBAR    = 1013.25; // Average at sea level
+        public static readonly double PHX_FWTR_DENSITY_KGM3        = 998.02;  // Fresh water density at 20°C
+        public static readonly double PHX_FWTR_SOUND_SPEED_MPS     = 1500.0;  // Default speed of sound in water
+        public static readonly double PHX_FWTR_SOUND_SPEED_MPS_MIN = 1300.0;  // Min value for speed of sound
+        public static readonly double PHX_FWTR_SOUND_SPEED_MPS_MAX = 1600.0;  // Max value for speed of sound
+        public static readonly double PHX_FWTR_SALINITY_PSU        = 0.0;     // Default water salinity, PSU
+        public static readonly double PHX_GRAVITY_ACC_MPS2         = 9.80665; // ISO 80000-3:2006
+        public static readonly double PHX_ATM_PRESSURE_MBAR        = 1013.25; // Average at sea level
 
         static readonly double PHX_GE = 9.7803253359;
         static readonly double PHX_K  = 0.00193185265241;
