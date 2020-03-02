@@ -1,4 +1,4 @@
-# UCNLPhysics
+# UCNLPhysics - library for seawater properties estimation
 * Sound speed in water
 * Density of water
 * Depth by pressure
@@ -6,6 +6,7 @@
 * Standrad gravity vs latitude
 * Vertical path of sound considering temperature/salinity profile
 * Depth by pressure considering temperature/salinity profile
+
 
 03-MAR-2020
 - JavaScript implementation
