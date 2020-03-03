@@ -1,134 +1,243 @@
-// (C) Aleksandr Dikarev, 2016
+// (C) Aleksandr Dikarev, 2016-2020
+// physx.c
 
 #include <physx.h>
 
-#define PHYSX_GE (9.7803253359f)
-#define PHYSX_K  (0.00193185265241f)
-#define PHYSX_E  (0.00669437999013f)
-
-#define C00	1402.388f
-#define C01	5.03830f
-#define C02	-5.81090E-2f
-#define C03	3.3432E-4f
-#define C04	-1.47797E-6f
-#define C05	3.1419E-9f
-#define C10	0.153563f
-#define C11	6.8999E-4f
-#define C12	-8.1829E-6f
-#define C13	1.3632E-7f
-#define C14	-6.1260E-10f
-#define C20	3.1260E-5f
-#define C21	-1.7111E-6f
-#define C22	2.5986E-8f
-#define C23	-2.5353E-10f
-#define C24	1.0415E-12f
-#define C30	-9.7729E-9f
-#define C31	3.8513E-10f
-#define C32	-2.3654E-12f
-#define A00	1.389f
-#define A01	-1.262E-2f
-#define A02	7.166E-5f
-#define A03	2.008E-6f
-#define A04	-3.21E-8f
-#define A10	9.4742E-5f
-#define A11	-1.2583E-5f
-#define A12	-6.4928E-8f
-#define A13	1.0515E-8f
-#define A14	-2.0142E-10f
-#define A20	-3.9064E-7f
-#define A21	9.1061E-9f
-#define A22	-1.6009E-10f
-#define A23	7.994E-12f
-#define A30	1.100E-10f
-#define A31	6.651E-12f
-#define A32	-3.391E-13f
-#define B00	-1.922E-2f
-#define B01	-4.42E-5f
-#define B10	7.3637E-5f
-#define B11	1.7950E-7f
-#define D00	1.727E-3f
-#define D10	-7.9836E-6f
-
-
-// calculates in situ density.
-// millero et al 1980, deep-sea res.,27a,255-264
-// jpots ninth report 1978,tenth report 1980
-// t: temperature, Celsius degree
-// p: pressure, mBar
-// s: salinity, ppm
-// result: kg/m3
-float PHYSX_WaterDensity_Calc(float t, float p, float s)
+// Interpolates a value with given x coordinate by two given points (x1,y1) and (x2,y2)
+float PHX_linterp(float x1, float y1, float x2, float y2, float x)
 {
-	float sig, k0, b, a, k, sr;
-	p = p / 1000.0f;
-	sr = _sqrt_f32(_abs_f32(s));
-	sig = 4.8314E-4f * s;
-	sig += ((-1.6546E-6f * t + 1.0227E-4f) * t - 5.72466E-3f) * sr;
-	sig += (((5.3875E-9f * t - 8.2467E-7f) * t + 7.6438E-5f) * t - 4.0899E-3f) * t + 0.824493f;
-	sig *= s;
-	sig += ((((6.536332E-9f * t - 1.120083E-6f) * t + 1.001685E-4f) * t - 9.095290E-3f) * t + 6.793952E-2f) * t - 0.157406f;
-	b = ((9.1697E-10f * t + 2.0816E-8f) * t - 9.9348E-7f) * s + (5.2787E-8f * t - 6.12293E-6f) * t + 8.50935E-5f;
-	k0 = ((-5.3009E-4f * t + 1.6483E-2f) * t + 7.944E-2f) * sr;
-	k0 += ((-6.1670E-5f * t + 1.09987E-2f) * t - 0.603459f) * t + 54.6746f;
-	k0 *= s;
-	k0 += (((-5.155288E-5f * t + 1.360477E-2f) * t - 2.327105f) * t + 148.4206f) * t + 19652.21f;
-	a = 1.91075E-4f * sr + (-1.6078E-6f * t - 1.0981E-5f) * t + 2.2838E-3f;
-	a *= s;
-	a += ((-5.77905E-7f * t + 1.16092E-4f) * t + 1.43713E-3f) * t + 3.239908f;
-	k = (b * p + a) * p + k0;
-	sig = 1000.0f + (k * sig + 1000.0f * p) / (k - p);
-
-	return sig;
+    return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
 }
 
-// The UNESCO equation: Chen and Millero (1977)
-// t: temperature, Celsius degree
-// p: pressure, mBar
-// s: salinity, ppm
-// result: m/s
-float PHYSX_SpeedOfSound_Calc(float t, float p_mbar, float s)
+/// calculates in situ density of water
+/// millero et al 1980, deep-sea res.,27a,255-264
+/// jpots ninth report 1978,tenth report 1980
+float PHX_water_density_calc(float t, float p, float s)
 {
-	float t2 = t * t;
-	float t3 = t2 * t;
-	float t4 = t3 * t;
-	float p = p_mbar / 1000.0f;
+    p = p / 1000.0f;
+    float sr = _sqrt_f32(s);
+    float sig = (((4.8314E-4f * s) +
+                 ((-1.6546E-6f * t + 1.0227E-4f) * t - 5.72466E-3f) * sr +
+                 (((5.3875E-9f * t - 8.2467E-7f) * t + 7.6438E-5f) * t - 4.0899E-3f) * t + 0.824493f) * s) +
+                 ((((6.536332E-9f * t - 1.120083E-6f) * t + 1.001685E-4f) * t - 9.095290E-3f) * t + 6.793952E-2f) * t - 0.157406f;
 
-	float Cw = (C00 + C01 * t + C02 * t2 + C03 * t3 + C04 * t4 + C05 * t4 * t) +
-			   (C10 + C11 * t + C12 * t2 + C13 * t3 + C14 * t4) * p +
-			   (C20 + C21 * t + C22 * t2 + C23 * t3 + C24 * t4) * p * p +
-			   (C30 + C31 * t + C32 * t2) * p * p * p;
+    float b = ((9.1697E-10f * t + 2.0816E-8f) * t - 9.9348E-7f) * s + (5.2787E-8f * t - 6.12293E-6f) * t + 8.50935E-5f;
 
-	float A = (A00 + A01 * t + A02 * t2 + A03 * t3 + A04 * t4) +
-			  (A10 + A11 * t + A12 * t2 + A13 * t3 + A14 * t4) * p +
-			  (A20 + A21 * t + A22 * t2 + A23 * t3) * p * p +
-			  (A30 + A31 * t + A32 * t2) * p * p * p;
+    float k0 = (((((-5.3009E-4f * t + 1.6483E-2f) * t + 7.944E-2f) * sr) +
+                ((-6.1670E-5f * t + 1.09987E-2f) * t - 0.603459f) * t + 54.6746f) * s) +
+                (((-5.155288E-5f * t + 1.360477E-2f) * t - 2.327105f) * t + 148.4206f) * t + 19652.21f;
 
-	float B = B00 + B01 * t + (B10 + B11 * t) * p;
+    float a = (1.91075E-4f * sr + (-1.6078E-6f * t - 1.0981E-5f) * t + 2.2838E-3f) * s +
+              ((-5.77905E-7f * t + 1.16092E-4f) * t + 1.43713E-3f) * t + 3.239908f;
 
-	float D = D00 + D10 * p;
+    float k = (b * p + a) * p + k0;
 
-	float c = Cw + A * s + B * _sqrt_f32(s * s * s) + D * s * s;
-
-	return c;
+    return 1000.0f + (k * sig + 1000.0 * p) / (k - p);
 }
 
-// calculates gravity at sea level vs latitude
-// WGS84 ellipsoid gravity formula
-// latitude: signed float [-90..90]
-// result: m/s2
-float PHYSX_GravityConstant_Calc(float latitude)
+/// The UNESCO equation: Chen and Millero (1977)
+float PHX_speed_of_sound_UNESCO_calc(float t, float p, float s)
 {
-	float phi_sq = _sin_f32(latitude);
-	phi_sq *= phi_sq;
-	return PHYSX_GE * ((1 + PHYSX_K * phi_sq) / _sqrt_f32(1 - PHYSX_E * phi_sq));
+    p = p / 1000.0;
+    float sr = _sqrt_f32(s);
+
+    float d = 1.727E-3f - 7.9836E-6f * p;
+
+    float b_1 = 7.3637E-5f + 1.7945E-7f * t;
+    float b_0 = -1.922E-2f - 4.42E-5f * t;
+    float b = b_0 + b_1 * p;
+
+    float a_3 = (-3.389E-13f * t + 6.649E-12f)  * t + 1.100E-10f;
+    float a_2 = ((7.988E-12f * t - 1.6002E-10f) * t + 9.1041E-9f) * t - 3.9064E-7f;
+    float a_1 = (((-2.0122E-10f * t + 1.0507E-8f)  * t - 6.4885E-8f) * t - 1.2580E-5f) * t + 9.4742E-5f;
+    float a_0 = (((-3.21E-8f * t + 2.006E-6f) * t + 7.164E-5f) * t - 1.262E-2f) * t + 1.389f;
+    float a = ((a_3 * p + a_2) * p + a_1) * p + a_0;
+
+    float c_3 = (-2.3643E-12f * t + 3.8504E-10f) * t - 9.7729E-9f;
+    float c_2 = (((1.0405E-12f * t - 2.5335E-10f) * t + 2.5974E-8f) * t - 1.7107E-6f)  * t + 3.1260E-5f;
+    float c_1 = (((-6.1185E-10f * t + 1.3621E-7f)  * t - 8.1788E-6f) * t + 6.8982E-4f)  * t + 0.153563f;
+    float c_0 = ((((3.1464E-9f  * t - 1.47800E-6f) * t + 3.3420E-4f) * t - 5.80852E-2f) * t + 5.03711f) * t + 1402.388f;
+    float c  = ((c_3 * p + c_2) * p + c_1) * p + c_0;
+
+    return c + (a + b * sr + d * s) * s;
 }
 
-// Hydrostatic pressure
-// p: pressure in mBar
-// p0: pressure on the water surface
-// rho: water density, kg/m3
-// result: depth in m
-float PHYSX_DepthByPressure_Calc(float p, float p0, float rho, float g)
+/// Calculates gravity at sea level vs latitude
+/// WGS84 ellipsoid gravity formula
+float PHX_gravity_constant_wgs84_calc(float phi)
 {
-	return (100.0f * (p - p0) / (rho * g));
+    float phi_sq = _sin_cos_f32(phi);
+    phi_sq *= phi_sq;
+    return (9.7803253359f * ((1.0f + 0.00193185265241f * phi_sq) / _sqrt_f32(1.0 - 0.00669437999013f * phi_sq)));
+}
+
+/// calculates distance from the water surface where pressure is p0 to the point, where pressure is p
+float PHX_depth_by_pressure_calc(float p, float p0, float rho, float g)
+{
+    return 100.0f * (p - p0) / (rho * g);
+}
+
+// Calculates pressure of a water column with given height (distance between
+// the water surface and the given point) assuming constant water density
+// h - depth, m
+// p0 - atmospheric pressure, mBar
+// rho - water density, kg/m^3
+// g - gravity acceleration, m/s^2
+float PHX_pressure_by_depth_calc(float h, float p0, float rho, float g)
+{
+    return h * rho * g / 100.0 + p0;
+}
+
+// Calculates depth (as a distance between the water surface and a point with
+// the given pressure) by the specified TS-profile
+// pm - pressure measured at the point, mBar
+// p0 - atmospheric pressure, mBar
+// g - gravity acceleration, m/s^2
+// tsProfile - vertical Temperature-Salinity profile at the given point
+// as an array of (f64, f64, f64)
+//   z - vertical coordinate, m (positive, 0 - water surface)
+//   t - temperature, °C
+//   s - salinity, PSU
+// Np - number of pressure intervals for integration
+bool PHX_depth_by_pressure_ts_profile(float pm, float p0, float g, int n_p, TSProfileItem_Struct* ts_profile, int ts_profile_size,  float* dpt)
+{
+    if ((n_p <= 0) ||
+    	(pm < p0) || (p0 < 0) ||
+    	(ts_profile_size < 2))
+    {
+    	return false;
+    }
+
+    float t1 = ts_profile[0].t;
+    float s1 = ts_profile[0].s;
+    float rho0 = PHX_water_density_calc(t1, p0, s1);
+    float p1 = PHX_pressure_by_depth_calc(ts_profile[0].z, p0, rho0, g);
+
+    float pe = PHX_pressure_by_depth_calc(ts_profile[ts_profile_size - 1].z, p0, rho0, g);
+
+    if ((pm < p1) || (pm > pe))
+    {
+        return false;
+    }
+
+    int p_idx = 1;
+    float t2 = ts_profile[p_idx].t;
+    float s2 = ts_profile[p_idx].s;
+    float p2 = PHX_pressure_by_depth_calc(ts_profile[p_idx].z, p0, rho0, g);
+
+    float dp = (pm - p0) / n_p;
+    *dpt = 0.0f;
+
+    float rho;
+    float t;
+    float p = p0;
+    float s;
+
+    while (p < pm) {
+
+        p += dp;
+
+        if (p > p2) {
+
+            p1 = p2;
+            t1 = t2;
+            s1 = s2;
+            p_idx++;
+
+            t2 = ts_profile[p_idx].t;
+            s2 = ts_profile[p_idx].s;
+            p2 = PHX_pressure_by_depth_calc(ts_profile[p_idx].z, p0, rho0, g);
+        }
+
+        t = PHX_linterp(p1, t1, p2, t2, p);
+        s = PHX_linterp(p1, s1, p2, s2, p);
+
+        rho = PHX_water_density_calc(t, p, s);
+        *dpt += 1.0f / rho;
+    }
+
+    *dpt = (*dpt * 100.0f * dp / g);
+    return true;
+}
+
+// Calculates the path, which sound traveled in vertical direction
+// between the water surface and the deepest point during
+// a given time of flight considering given temperature and salinity profile
+// tof - time of flight, sec
+// Nt - number of time intervals for integration
+// tsProfile - vertical Temperature-Salinity profile at the given point
+// as an array of TSPoint
+//   z - vertical coordinate, m (positive, 0 - water surface)
+//   t - temperature, °C
+//   s - salinity, PSU
+bool PHX_vertical_sound_path_ts_profile(float tof, float g, int n_t, TSProfileItem_Struct* ts_profile, int ts_profile_size,  float* h)
+{
+
+	if ((n_t <= 0) ||
+		(ts_profile_size < 2))
+	{
+		return false;
+	}
+
+    float z1 = ts_profile[0].z;
+    float t1 = ts_profile[0].t;
+    float s1 = ts_profile[0].s;
+    float rho0 = PHX_water_density_calc(t1, PHX_ATM_PRESSURE_MBAR, s1);
+    float p1 = PHX_pressure_by_depth_calc(z1, PHX_ATM_PRESSURE_MBAR, rho0, g);
+
+    float v = PHX_speed_of_sound_UNESCO_calc(t1, p1, s1);
+
+    if (v * tof > ts_profile[ts_profile_size - 1].z)
+    {
+    	return false;
+    }
+
+    int p_idx = 1;
+    float z2 = ts_profile[p_idx].z;
+    float t2 = ts_profile[p_idx].t;
+    float s2 = ts_profile[p_idx].s;
+    float p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR, rho0, g);
+
+    float dt = tof / n_t;
+    *h = 0.0;
+    float t, p, s, tt = 0.0f;
+
+    while (tt < tof)
+    {
+        tt += dt;
+        *h = *h + dt * v;
+
+        if (*h > z2)
+        {
+            p1 = p2;
+            t1 = t2;
+            s1 = s2;
+            z1 = z2;
+            p_idx++;
+
+            z2 = ts_profile[p_idx].z;
+            t2 = ts_profile[p_idx].t;
+            s2 = ts_profile[p_idx].s;
+            p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR + p1, rho0, g);
+        }
+
+        t = PHX_linterp(z1, t1, z2, t2, *h);
+        p = PHX_linterp(z1, p1, z2, p2, *h);
+        s = PHX_linterp(z1, s1, z2, s2, *h);
+        v = PHX_speed_of_sound_UNESCO_calc(t, p, s);
+    }
+
+    return true;
+}
+
+// Calculated the freezing temperature of seawater (in °C) with specified pressure and salinity.
+// According to:
+// Algorithms for computation of fundamental properties of seawater.
+// Unesco technical papers in marine science vol. 44, 1983, pp. 30
+// https://darchive.mblwhoilibrary.org/bitstream/handle/1912/2470/059832eb.pdf
+// p - pressure, mBar
+// s - PSU
+float PHX_water_fpoint_calc(float p, float s)
+{
+   return (-0.0575f + 1.710523E-3f * _sqrt_f32(s) - 2.154996E-4f * s) * s - 7.53E-6f * p;
 }
