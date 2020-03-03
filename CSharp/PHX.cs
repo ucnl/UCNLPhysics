@@ -6,7 +6,6 @@ namespace UCNLPhysics
     public struct TSProfilePoint
     {
         public double Z;
-        public double Pa;
         public double T;
         public double S;
     }
@@ -21,50 +20,12 @@ namespace UCNLPhysics
         public static readonly double PHX_GRAVITY_ACC_MPS2         = 9.80665; // ISO 80000-3:2006
         public static readonly double PHX_ATM_PRESSURE_MBAR        = 1013.25; // Average at sea level
 
-        static readonly double PHX_GE = 9.7803253359;
-        static readonly double PHX_K  = 0.00193185265241;
-        static readonly double PHX_E  = 0.00669437999013;     
-   
-        private static double Linterp(double x1, double y1, double x2, double y2, double x)
-        {
-            return y1 + (x - x1)*(y2 - y1)/(x2 - x1);
-        }
 
-        public static double PHX_Approx_Pressure_By_Depth(double h, double p0, double rho, double g)
-        {
-            return h * rho * g / 100.0 + p0;
-        }
-
-        /// <summary>
-        /// calculates in situ density of water
-        /// millero et al 1980, deep-sea res.,27a,255-264
-        /// jpots ninth report 1978,tenth report 1980
-        /// </summary>
-        /// <param name="t">temperature, Celsius degree</param>
-        /// <param name="p">pressure, mBar</param>
-        /// <param name="s">Salinity, PSU</param>
-        /// <returns>water density in kg/m^3</returns>
+        #region Obsolete
+        [Obsolete]
         public static double PHX_WaterDensity_Calc(double t, double p, double s)
         {
-            p = p / 1000.0;
-            double sr = Math.Sqrt(Math.Abs(s));
-
-            double sig = (4.8314E-4 * s +
-                       ((-1.6546E-6 * t + 1.0227E-4) * t - 5.72466E-3) * sr +
-                       (((5.3875E-9 * t - 8.2467E-7) * t + 7.6438E-5) * t - 4.0899E-3) * t + 0.824493) * s +
-                      ((((6.536332E-9 * t - 1.120083E-6) * t + 1.001685E-4) * t - 9.095290E-3) * t + 6.793952E-2) * t - 0.157406;
-
-            double b = ((9.1697E-10 * t + 2.0816E-8) * t - 9.9348E-7) * s + (5.2787E-8 * t - 6.12293E-6) * t + 8.50935E-5;
-
-            double k0 = (((-5.3009E-4 * t + 1.6483E-2) * t + 7.944E-2) * sr +
-                      ((-6.1670E-5 * t + 1.09987E-2) * t - 0.603459) * t + 54.6746) * s +
-                     (((-5.155288E-5 * t + 1.360477E-2) * t - 2.327105) * t + 148.4206) * t + 19652.21;
-
-            double a = (1.91075E-4 * sr + (-1.6078E-6 * t - 1.0981E-5) * t + 2.2838E-3) * s +
-                    ((-5.77905E-7 * t + 1.16092E-4) * t + 1.43713E-3) * t + 3.239908;
-
-            double k = (b * p + a) * p + k0;
-            return 1000.0 + (k * sig + 1000.0 * p) / (k - p);
+            return PHX_water_density_calc(t, p, s);
         }
 
         /// <summary>
@@ -77,65 +38,19 @@ namespace UCNLPhysics
         [Obsolete]
         public static double PHX_SpeedOfSound_Calc(double t, double p, double s)
         {
-            return PHX_SpeedOfSoundInWater_UNESCO(t, p, s);
-        }
-
-        /// <summary>
-        /// The UNESCO equation: Chen and Millero (1977)
-        /// </summary>
-        /// <param name="t">temperature, Celsius degree</param>
-        /// <param name="p">pressure, mBar</param>
-        /// <param name="s">salinity, PSU</param>
-        /// <returns>Speed of sound in m/s</returns>
-        public static double PHX_SpeedOfSoundInWater_UNESCO(double t, double p, double s)
-        {
-            var t2 = t * t;
-            var t3 = t2 * t;
-            var t4 = t3 * t;
-            p = p / 1000.0;
-            var p2 = p * p;
-            var p3 = p2 * p;
-
-            var Cw = (1402.388 + 5.03830 * t + -5.81090E-2 * t2 + 3.3432E-4 * t3 + -1.47797E-6 * t4 + 3.1419E-9 * t4 * t) +
-                       (0.153563 + 6.8999E-4 * t + -8.1829E-6 * t2 + 1.3632E-7 * t3 + -6.1260E-10 * t4) * p +
-                       (3.1260E-5 + -1.7111E-6 * t + 2.5986E-8 * t2 + -2.5353E-10 * t3 + 1.0415E-12 * t4) * p2 +
-                       (-9.7729E-9 + 3.8513E-10 * t + -2.3654E-12 * t2) * p3;
-
-            var A = (1.389 + -1.262E-2 * t + 7.166E-5 * t2 + 2.008E-6 * t3 + -3.21E-8 * t4) +
-                      (9.4742E-5 + -1.2583E-5 * t + -6.4928E-8 * t2 + 1.0515E-8 * t3 + -2.0142E-10 * t4) * p +
-                      (-3.9064E-7 + 9.1061E-9 * t + -1.6009E-10 * t2 + 7.994E-12 * t3) * p2 +
-                      (1.100E-10 + 6.651E-12 * t + -3.391E-13 * t2) * p3;
-
-            var B = -1.922E-2 + -4.42E-5 * t + (7.3637E-5 + 1.7950E-7 * t) * p;
-
-            var D = 1.727E-3 + -7.9836E-6 * p;
-
-            return Cw + A * s + B * Math.Sqrt(s * s * s) + D * s * s;
-        }
-
-        /// <summary>
-        /// Calculate speed of sound (according to Francois & Garrison, JASA 72 (6) p1886) 
-        /// </summary>
-        /// <param name="t">temperature in °C</param>
-        /// <param name="d">depth in meters</param>
-        /// <param name="s">salinity in PSU</param>
-        /// <returns></returns>
-        public static double PHX_SpeedOfSoundInWater_FrancoisGarrison(double t, double d, double s)
-        {
-           return 1412 + 3.21 * t + 1.19 * s + 0.0167 * d;
-        }
-
+            return PHX_speed_of_sound_UNESCO_calc(t, p, s);
+        }              
+       
         /// <summary>
         /// calculates gravity at sea level vs latitude
         /// WGS84 ellipsoid gravity formula
         /// </summary>
         /// <param name="latitude">latitude, signed from -90 to 90</param>
         /// <returns>Gravity acceleration at sea level, m/s^2</returns>
+        [Obsolete]
         public static double PHX_GravityConstant_Calc(double latitude)
         {
-            double phi_sq = Math.Sin(latitude * Math.PI / 180.0);
-            phi_sq *= phi_sq;
-            return PHX_GE * ((1 + PHX_K * phi_sq) / Math.Sqrt(1 - PHX_E * phi_sq));
+            return PHX_gravity_constant_wgs84_calc(latitude);
         }
 
         /// <summary>
@@ -148,147 +63,257 @@ namespace UCNLPhysics
         /// <param name="rho">water density, kg/m^3</param>
         /// <param name="g">gravity acceleration at sea level, m/s^2</param>
         /// <returns>depth (distance from water surface)</returns>
+        [Obsolete]
         public static double PHX_DepthByPressure_Calc(double p, double p0, double rho, double g)
         {
-            return (100.0 * (p - p0) / (rho * g));
+            return PHX_depth_by_pressure_calc(p, p0, rho, g);
+        }
+        #endregion
+
+
+        // Interpolates a value with given x coordinate by two given points (x1,y1) and (x2,y2)
+        public static double PHX_linterp(double x1, double y1, double x2, double y2, double x)
+        {
+            return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
         }
 
-        /// <summary>
-        /// Calculated vertical distance from the water surface with atmispheric pressure p0
-        /// by measured pressure p considering compression of water column with constant temperature t
-        /// and salinity s.
-        /// </summary>
-        /// <param name="p">Measured pressure, mBar</param>
-        /// <param name="p0">Measured atmospheric pressure, mBar</param>
-        /// <param name="t">Water temperature, °C</param>
-        /// <param name="s">Salinity, PSU</param>
-        /// <param name="g">Gravity acceleration, m/s^2</param>
-        /// <param name="Np">Number of pressure intervals for integration</param>
-        /// <returns>depth (distance from water surface)</returns>
-        public static double PHX_DepthByPressure_CompressionTSConst_Calc(double p, double p0, double t, double s, double g, int Np)
+        /// calculates in situ density of water
+        /// millero et al 1980, deep-sea res.,27a,255-264
+        /// jpots ninth report 1978,tenth report 1980
+        public static double PHX_water_density_calc(double t, double p, double s)
         {
-            double dp = (p - p0) / Np;
-            double he = 0;
+            p = p / 1000.0;
+            double sr = Math.Sqrt(Math.Abs(s));
+            double sig = (((4.8314E-4 * s) +
+                         ((-1.6546E-6 * t + 1.0227E-4) * t - 5.72466E-3) * sr +
+                         (((5.3875E-9 * t - 8.2467E-7) * t + 7.6438E-5) * t - 4.0899E-3) * t + 0.824493) * s) +
+                         ((((6.536332E-9 * t - 1.120083E-6) * t + 1.001685E-4) * t - 9.095290E-3) * t + 6.793952E-2) * t - 0.157406;
 
-            for (int n = 0; n < Np; n++)
+            double b = ((9.1697E-10 * t + 2.0816E-8) * t - 9.9348E-7) * s + (5.2787E-8 * t - 6.12293E-6) * t + 8.50935E-5;
+
+            double k0 = (((((-5.3009E-4 * t + 1.6483E-2) * t + 7.944E-2) * sr) +
+                        ((-6.1670E-5 * t + 1.09987E-2) * t - 0.603459) * t + 54.6746) * s) +
+                        (((-5.155288E-5 * t + 1.360477E-2) * t - 2.327105) * t + 148.4206) * t + 19652.21;
+
+            double a = (1.91075E-4 * sr + (-1.6078E-6 * t - 1.0981E-5) * t + 2.2838E-3) * s +
+                      ((-5.77905E-7 * t + 1.16092E-4) * t + 1.43713E-3) * t + 3.239908;
+
+            double k = (b * p + a) * p + k0;
+
+            return 1000.0 + (k * sig + 1000.0 * p) / (k - p);
+        }
+
+        /// The UNESCO equation: Chen and Millero (1977)
+        public static double PHX_speed_of_sound_UNESCO_calc(double t, double p, double s)
+        {            
+            p = p / 1000.0;
+            double sr = Math.Sqrt(Math.Abs(s));
+
+            double d = 1.727E-3 - 7.9836E-6 * p;
+
+            double b_1 = 7.3637E-5 + 1.7945E-7 * t;
+            double b_0 = -1.922E-2 - 4.42E-5 * t;
+            double b = b_0 + b_1 * p;
+
+            double a_3 = (-3.389E-13 * t + 6.649E-12) * t + 1.100E-10;
+            double a_2 = ((7.988E-12 * t - 1.6002E-10) * t + 9.1041E-9) * t - 3.9064E-7;
+            double a_1 = (((-2.0122E-10 * t + 1.0507E-8) * t - 6.4885E-8) * t - 1.2580E-5) * t + 9.4742E-5;
+            double a_0 = (((-3.21E-8 * t + 2.006E-6) * t + 7.164E-5) * t - 1.262E-2) * t + 1.389;
+            double a = ((a_3 * p + a_2) * p + a_1) * p + a_0;
+
+            double c_3 = (-2.3643E-12 * t + 3.8504E-10) * t - 9.7729E-9;
+            double c_2 = (((1.0405E-12 * t - 2.5335E-10) * t + 2.5974E-8) * t - 1.7107E-6) * t + 3.1260E-5;
+            double c_1 = (((-6.1185E-10 * t + 1.3621E-7) * t - 8.1788E-6) * t + 6.8982E-4) * t + 0.153563;
+            double c_0 = ((((3.1464E-9 * t - 1.47800E-6) * t + 3.3420E-4) * t - 5.80852E-2) * t + 5.03711) * t + 1402.388;
+            double c = ((c_3 * p + c_2) * p + c_1) * p + c_0;
+
+            return c + (a + b * sr + d * s) * s;
+        }
+
+        /// Calculates gravity at sea level vs latitude
+        /// WGS84 ellipsoid gravity formula
+        public static double PHX_gravity_constant_wgs84_calc(double phi)
+        {
+            double phi_sq = Math.Sin(phi * Math.PI / 180.0);
+            phi_sq *= phi_sq;
+            return (9.7803253359 * ((1.0 + 0.00193185265241 * phi_sq) / Math.Sqrt(1.0 - 0.00669437999013 * phi_sq)));
+        }
+
+        /// calculates distance from the water surface where pressure is p0 to the point, where pressure is p
+        public static double PHX_depth_by_pressure_calc(double p, double p0, double rho, double g)
+        {
+            return 100.0 * (p - p0) / (rho * g);
+        }
+
+        // Calculates pressure of a water column with given height (distance between
+        // the water surface and the given point) assuming constant water density
+        // h - depth, m
+        // p0 - atmospheric pressure, mBar
+        // rho - water density, kg/m^3
+        // g - gravity acceleration, m/s^2
+        public static double PHX_pressure_by_depth_calc(double h, double p0, double rho, double g)
+        {
+            return h * rho * g / 100.0 + p0;
+        }
+
+        // Calculates depth (as a distance between the water surface and a point with
+        // the given pressure) by the specified TS-profile
+        // pm - pressure measured at the point, mBar
+        // p0 - atmospheric pressure, mBar
+        // g - gravity acceleration, m/s^2
+        // tsProfile - vertical Temperature-Salinity profile at the given point
+        // as an array of (f64, f64, f64)
+        //   z - vertical coordinate, m (positive, 0 - water surface)
+        //   t - temperature, °C
+        //   s - salinity, PSU
+        // Np - number of pressure intervals for integration
+        public static double PHX_depth_by_pressure_ts_profile(double pm, double p0, double g, int n_p, TSProfilePoint[] ts_profile)
+        {
+            if (n_p <= 0) 
             {
-                he += 1.0/PHX_WaterDensity_Calc(t, p0 + n * dp, s);
+                throw new ArgumentOutOfRangeException("Specified number of time intervals Nt should be greater than zero");
+            }
+
+            if (ts_profile.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException("tsProfile has to contain at least two points");
+            }
+
+            double t1 = ts_profile[0].T;
+            double s1 = ts_profile[0].S;
+            double rho0 = PHX_water_density_calc(t1, p0, s1);
+            double p1 = PHX_pressure_by_depth_calc(ts_profile[0].Z, p0, rho0, g);
+            double pe = PHX_pressure_by_depth_calc(ts_profile[ts_profile.Length - 1].Z, p0, rho0, g);
+
+            if ((pm < p1) || (pm > pe))
+            {
+                throw new ArgumentOutOfRangeException("Specified pressure is beyond the specified TS-profile");
             }
             
-            return 100.0 * he * dp / g;
-        }
-
-        public static double PHX_DepthBy_Pressure_TSProfile_Calc(double pm, double p0, double g, int Np, 
-            TSProfilePoint[] tsProfile)
-        {
-            if ((tsProfile == null) && (tsProfile.Length < 1))
-                throw new ArgumentException("tsProfile should have more than 1 elements");
-
-            if ((pm >= tsProfile[0].Pa) && (pm <= tsProfile[tsProfile.Length - 1].Pa))
+            int p_idx = 1;
+            double t2 = ts_profile[p_idx].T;
+            double s2 = ts_profile[p_idx].S;
+            double p2 = PHX_pressure_by_depth_calc(ts_profile[p_idx].Z, p0, rho0, g);
+             
+            double dp = (pm - p0) / n_p;
+            double h = 0.0, rho, t, p = p0, s;
+    
+            while (p < pm) 
             {
-                double p1 = tsProfile[0].Pa;
-                double t1 = tsProfile[0].T;
-                double s1 = tsProfile[0].S;
-                double p2 = tsProfile[1].Pa;
-                double t2 = tsProfile[1].T;
-                double s2 = tsProfile[1].S;
+                p += dp;
 
-                double dp = (pm - p0) / Np;
-                int pointIdx = 1;
-                double h = 0;
-                double t, p, s;
-
-                for (int n = 0; n < Np; n++)
+                if (p > p2)
                 {
-                    p = p0 + n * dp;
-                    
-                    if (p > p2) 
-                    {
-                         p1 = p2;
-                         t1 = t2;
-                         s1 = s2;
-                         pointIdx++;
-                         p2 = tsProfile[pointIdx].Pa;
-                         t2 = tsProfile[pointIdx].T;
-                         s2 = tsProfile[pointIdx].S;
-                    }
-                    t = Linterp(p1, t1, p2, t2, p);
-                    s = Linterp(p1, s1, p2, s2, p);                    
-                    h += 1.0 / PHX_WaterDensity_Calc(t, p, s);
+
+                    p1 = p2;
+                    t1 = t2;
+                    s1 = s2;
+                    p_idx += 1;
+
+                    t2 = ts_profile[p_idx].T;
+                    s2 = ts_profile[p_idx].S;
+                    p2 = PHX_pressure_by_depth_calc(ts_profile[p_idx].Z, p0, rho0, g);
                 }
 
-                h *= 100.0 * dp / g;
-                return h;
+                t = PHX_linterp(p1, t1, p2, t2, p);
+                s = PHX_linterp(p1, s1, p2, s2, p);
+
+                rho = PHX_water_density_calc(t, p, s);
+                h += 1.0 / rho;
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException("pm is beyond the specified tsProfile");
-            }
+
+            return h * 100.0 * dp / g;
         }
 
-        /// <summary>
-        /// Estimates vertical distance traveled by sound during time tof considering specified temperature and salinity profile.
-        /// By dividing whole time in Nt intervals and integrating the distance with layers of water with different density.
-        /// </summary>
-        /// <param name="tof">A half of traveling time (one way traveling time), sec</param>
-        /// <param name="g">gravity acceleration, m/s^2</param>
-        /// <param name="Nt">Number of intervals to time</param>
-        /// <param name="tsProfile">temperature and salinity profile</param>
-        /// <returns>Depth as a traveled distance through medium with layers with different temperature, pressure and salinity, m</returns>
-        public static double PHX_VerticalSoundPath_By_Time_TSProfile_Calc(double tof, double g, int Nt, TSProfilePoint[] tsProfile)
+        // Calculates the path, which sound traveled in vertical direction
+        // between the water surface and the deepest point during
+        // a given time of flight considering given temperature and salinity profile
+        // tof - time of flight, sec
+        // Nt - number of time intervals for integration
+        // tsProfile - vertical Temperature-Salinity profile at the given point
+        // as an array of TSPoint
+        //   z - vertical coordinate, m (positive, 0 - water surface)
+        //   t - temperature, °C
+        //   s - salinity, PSU
+        public static double PHX_vertical_sound_path_ts_profile(double tof, double g, int n_t, TSProfilePoint[] ts_profile)
         {
-            if ((tsProfile == null) && (tsProfile.Length < 1))
-                throw new ArgumentException("tsProfile should have more than 1 elements");
 
-            double approxDist = PHX_FWTR_SOUND_SPEED_MPS * tof;
-            
-            if ((approxDist >= tsProfile[0].Z) && (approxDist <= tsProfile[tsProfile.Length - 1].Z))
+	        if (ts_profile.Length < 2)
             {
-                double p1 = tsProfile[0].Pa;
-                double t1 = tsProfile[0].T;
-                double s1 = tsProfile[0].S;
-                double z1 = tsProfile[0].Z;
-                double p2 = tsProfile[1].Pa;
-                double t2 = tsProfile[1].T;
-                double s2 = tsProfile[1].S;
-                double z2 = tsProfile[1].Z;
-
-                double dt = tof / Nt;
-                int pointIdx = 1;
-                double h = 0;                
-                double v, t, p, s;
-
-                v = PHX_SpeedOfSoundInWater_UNESCO(t1, p1, s1);
-
-                for (int n = 0; n < Nt; n++)
-                {
-                    h += dt * v;
-
-                    if (h > z2)
-                    {
-                        p1 = p2;
-                        t1 = t2;
-                        s1 = s2;
-                        z1 = z2;
-                        pointIdx++;
-                        p2 = tsProfile[pointIdx].Pa;
-                        t2 = tsProfile[pointIdx].T;
-                        s2 = tsProfile[pointIdx].S;
-                        z2 = tsProfile[pointIdx].Z;
-                    }
-
-                    t = Linterp(z1, t1, z2, t2, h);
-                    p = Linterp(z1, p1, z2, p2, h);
-                    s = Linterp(z1, s1, z2, s2, h);
-                    v = PHX_SpeedOfSoundInWater_UNESCO(t, p, s);
+                throw new ArgumentOutOfRangeException("tsProfile has to contain at least two points");
+            }
+  
+            if (n_t <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Specified number of time intervals Nt should be greater than zero");
+            }
+        
+            double z1 = ts_profile[0].Z;
+            double t1 = ts_profile[0].T;
+            double s1 = ts_profile[0].S;
+            double rho0 = PHX_water_density_calc(t1, PHX_ATM_PRESSURE_MBAR, s1);
+            double p1 = PHX_pressure_by_depth_calc(z1, PHX_ATM_PRESSURE_MBAR, rho0, g);
+  
+            double v = PHX_speed_of_sound_UNESCO_calc(t1, p1, s1);
+  
+            if (v * tof > ts_profile[ts_profile.Length - 1].Z)
+            {
+                throw new ArgumentOutOfRangeException("Specified time of flight is beyond the specified TS-profile");
+            }
+  
+            int p_idx = 1;
+            double z2 = ts_profile[p_idx].Z;
+            double t2 = ts_profile[p_idx].T;
+            double s2 = ts_profile[p_idx].S;
+            double p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR, rho0, g);
+  
+            double dt = tof / n_t;
+            double h = 0.0;
+            double t;
+            double p;
+            double s;
+            double tt = 0.0;
+  
+            while (tt < tof)
+            {
+  
+                tt += dt;
+                h = h + dt * v;
+  
+                if (h > z2)
+                {  
+                    p1 = p2;
+                    t1 = t2;
+                    s1 = s2;
+                    z1 = z2;
+                    p_idx = p_idx + 1;
+  
+                    z2 = ts_profile[p_idx].Z;
+                    t2 = ts_profile[p_idx].T;
+                    s2 = ts_profile[p_idx].S;
+                    p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR + p1, rho0, g);
                 }
-
-                return h;
+  
+                t = PHX_linterp(z1, t1, z2, t2, h);
+                p = PHX_linterp(z1, p1, z2, p2, h);
+                s = PHX_linterp(z1, s1, z2, s2, h);
+                v = PHX_speed_of_sound_UNESCO_calc(t, p, s);
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException("tof is beyond the specified tsProfile");
-            }
+  
+            return h;
         }
+
+        // Calculated the freezing temperature of seawater (in °C) with specified pressure and salinity.
+        // According to:
+        // Algorithms for computation of fundamental properties of seawater.
+        // Unesco technical papers in marine science vol. 44, 1983, pp. 30
+        // https://darchive.mblwhoilibrary.org/bitstream/handle/1912/2470/059832eb.pdf
+        // p - pressure, mBar
+        // s - PSU
+        public static double PHX_water_fpoint_calc(double p, double s)
+        {
+           return (-0.0575 + 1.710523E-3 * Math.Sqrt(s) - 2.154996E-4 * s) * s - 7.53E-6 * p;
+        }
+             
     }
 }
