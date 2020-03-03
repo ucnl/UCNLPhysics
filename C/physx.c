@@ -1,7 +1,7 @@
 // (C) Aleksandr Dikarev, 2016-2020
 // physx.c
 
-#include <physx.h>
+#include <core_physx.h>
 
 // Interpolates a value with given x coordinate by two given points (x1,y1) and (x2,y2)
 float PHX_linterp(float x1, float y1, float x2, float y2, float x)
@@ -66,9 +66,9 @@ float PHX_speed_of_sound_UNESCO_calc(float t, float p, float s)
 /// WGS84 ellipsoid gravity formula
 float PHX_gravity_constant_wgs84_calc(float phi)
 {
-    float phi_sq = _sin_cos_f32(phi);
+    float phi_sq = _sin_f32(phi);
     phi_sq *= phi_sq;
-    return (9.7803253359f * ((1.0f + 0.00193185265241f * phi_sq) / _sqrt_f32(1.0 - 0.00669437999013f * phi_sq)));
+    return (9.7803253359f * ((1.0f + 0.00193185265241f * phi_sq) / _sqrt_f32(1.0f - 0.00669437999013f * phi_sq)));
 }
 
 /// calculates distance from the water surface where pressure is p0 to the point, where pressure is p
