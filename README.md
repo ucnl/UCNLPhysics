@@ -20,4 +20,4 @@
 - Added implementation in MATLAB
 
 
-## [Tests for JavaScript version of this library](https://ucnl.github.io/UCNLPhysics/JS/ucnlphysics_js_tests.html)
+## [Online tests for JavaScript version of this library](https://ucnl.github.io/UCNLPhysics/JS/ucnlphysics_js_tests.html)
