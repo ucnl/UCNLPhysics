@@ -21,3 +21,5 @@
 
 
 ## [Online tests for JavaScript version of this library](https://ucnl.github.io/UCNLPhysics/JS/ucnlphysics_js_tests.html)
+
+Since this library is non-commercial and we work on it for educational purposes, please, if you find it useful - give us a star. It will help other people to find it more easily. Thank you!
