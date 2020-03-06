@@ -2,6 +2,7 @@
 // (C) Alek Dikarev, 2020
 
 const PHX_FWTR_DENSITY_KGM3        = 998.02;  // Fresh water density at 20°C
+const PHX_SWTR_DENSITY_KGM3        = 1023.6;  // Mean density for seawater
 const PHX_FWTR_SOUND_SPEED_MPS     = 1500.0;  // Default speed of sound in water
 const PHX_FWTR_SOUND_SPEED_MPS_MIN = 1300.0;  // Min value for speed of sound
 const PHX_FWTR_SOUND_SPEED_MPS_MAX = 1800.0;  // Max value for speed of sound
@@ -10,8 +11,10 @@ const PHX_GRAVITY_ACC_MPS2         = 9.80665; // ISO 80000-3:2006
 const PHX_ATM_PRESSURE_MBAR        = 1013.25; // Average at sea level
 
 //
+
 const EXAMPLE_N_PACIFIC_TS_PROFILE = {
     latitude : 39,
+    zStep    : 500,
     tsProfile: [ { z:    0, t: 12.0, s: 33.8  },
                  { z:  500, t:  7.0, s: 34.0  },
                  { z: 1000, t:  3.0, s: 34.25 },
@@ -30,6 +33,7 @@ const EXAMPLE_N_PACIFIC_TS_PROFILE = {
 
 const EXAMPLE_ARCTIC_TS_PROFILE = {
     latitude : 89,
+    zStep    : 100,
     tsProfile: [ { z:   0, t:  -1.8, s: 32.8  },
                  { z: 100, t:  -1.1, s: 34.25 },
                  { z: 200, t:   1.1, s: 34.8  },
@@ -44,6 +48,7 @@ const EXAMPLE_ARCTIC_TS_PROFILE = {
 
 const EXAMPLE_S_ATLANTIC_TS_PROFILE = {
     latitude : -20,
+    zStep    : 200,
     tsProfile: [ { z:	   0,	t:	25.6,	s:	37.2	},
                  { z:	 200,	t:  20.0,	s:	36.2	},
                  { z:	 400,	t:  11.5,	s:	35.0	},
@@ -219,8 +224,6 @@ function PHX_depth_by_pressure_ts_profile(pm, p0, n_p, g, ts_profile) {
 
     while (p < pm) {
 
-        p += dp;
-
         if (p > p2) {
 
             p1 = p2;
@@ -238,6 +241,8 @@ function PHX_depth_by_pressure_ts_profile(pm, p0, n_p, g, ts_profile) {
 
         rho = PHX_water_density_calc(t, p, s);
         h += 1.0 / rho;
+
+        p += dp;
     }
 
     return h * 100.0 * dp / g;
