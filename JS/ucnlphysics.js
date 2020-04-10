@@ -309,7 +309,7 @@ function PHX_vertical_sound_path_ts_profile(tof, n_t, g, ts_profile) {
             z2 = ts_profile[p_idx].z;
             t2 = ts_profile[p_idx].t;
             s2 = ts_profile[p_idx].s;
-            p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR + p1, rho0, g);
+            p2 = PHX_pressure_by_depth_calc(z2, PHX_ATM_PRESSURE_MBAR, rho0, g);
         }
 
         t = PHX_linterp(z1, t1, z2, t2, h);
