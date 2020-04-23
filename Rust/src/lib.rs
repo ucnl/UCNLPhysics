@@ -46,7 +46,8 @@ pub fn phx_water_density_calc(t_c: f64, p_mbar: f64, s_psu: f64) -> f64 {
 /// The UNESCO equation: Chen and Millero (1977)
 pub fn phx_speed_of_sound_unesco_calc(t: f64, p: f64, s: f64) -> f64 {
 
-    /*let t2 = t * t;
+    /*
+    let t2 = t * t;
     let t3 = t2 * t;
     let t4 = t3 * t;
     let p = p / 1000.0;
@@ -273,6 +274,55 @@ pub fn phx_vertical_sound_path_ts_profile(tof: f64, n_t: i32, g: f64, ts_profile
 pub fn phx_water_fpoint_calc(p: f64, s: f64) -> f64 {
    (-0.0575 + 1.710523E-3 * s.abs().sqrt() - 2.154996E-4 * s) * s - 7.53E-6 * p
 }
+
+// calculation of absorption according to:
+// Francois & Garrison, J. Acoust. Soc. Am., Vol. 72, No. 6, December 1982
+// f frequency (kHz)
+// T Temperature (degC)
+// S Salinity (ppt)
+// D Depth (m)
+// pH Acidity
+pub fn alpha_e_francois_garrison_calc(f: f64, t: f64, s: f64, h: f64, ph: f64) -> f64 {
+    // Total absorption = Boric Acid Contrib. + Magnesium Sulphate Contrib. + Pure Water Contrib.
+
+    // Measured ambient temp
+    let t_kel: f64 = 273.15 + t;
+    let fsq: f64 = f * f;            
+
+    // Calculate speed of sound (according to Francois & Garrison, JASA 72 (6) p1886)
+    let c: f64 = 1412.0 + 3.21 * t + 1.19 * s + 0.0167 * h;
+
+    // Boric acid contribution
+    let a1 = (8.86 / c) * 10f64.powf(0.78 * ph - 5.0);
+    let p1 = 1.0;
+    let f1 = 2.8 * (s / 35.0).sqrt() * 10f64.powf(4.0 - 1245.0 / t_kel);
+    let boric = (a1 * p1 * f1 * fsq) / (fsq + f1 * f1);
+
+    // MgSO4 contribution
+    let a2 = 21.44 * (s / c) * (1.0 + 0.025 * t);
+    let p2 = 1.0 - 1.37E-4 * h + 6.2E-9 * h * h;
+    let f2 = (8.17 * 10f64.powf(8.0 - 1990.0 / t_kel)) / (1.0 + 0.0018 * (s - 35.0));
+    let mgso4 = (a2 * p2 * f2 * fsq) / (fsq + f2 * f2);
+
+    let a3: f64;
+    if t <= 20.0 {
+        a3 = 4.937E-4 - 2.59E-5 * t + 9.11E-7 * t * t - 1.5E-8 * t * t * t;
+    }
+    else {
+        a3 = 3.964E-4 - 1.146E-5 * t + 1.45E-7 * t * t - 6.5E-10 * t * t * t;
+    }
+
+    let p3 = 1.0 - 3.83E-5 * h + 4.9E-10 * h * h;
+    let h2o = a3 * p3 * fsq;
+
+    // Total absorption
+    (boric + mgso4 + h2o)
+}
+
+
+
+
+
 
 #[macro_export]
 macro_rules! assert_approx_eq {
