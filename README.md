@@ -1,4 +1,4 @@
-# UCNLPhysics - library for seawater properties estimation
+# UCNLPhysics - library for seawater properties estimation in C/C#/Rust/JS/Matlab
 * Sound speed in water
 * Density of water
 * Depth by pressure
