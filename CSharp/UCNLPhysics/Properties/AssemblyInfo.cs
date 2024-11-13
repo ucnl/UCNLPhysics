@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Underwater communication & navigation laboratory, LLC")]
 [assembly: AssemblyProduct("UCNLPhysics")]
-[assembly: AssemblyCopyright("Copyright © Alek Dikarev 2020")]
+[assembly: AssemblyCopyright("Copyright © Alek Dikarev 2018")]
 [assembly: AssemblyTrademark("UC&NL")]
 [assembly: AssemblyCulture("")]
 
