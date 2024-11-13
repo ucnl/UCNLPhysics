@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCNLPhysics;
 
@@ -263,6 +263,16 @@ namespace UCNLPhysics_tests
                     Assert.AreEqual(tf_est, ref_tf[s_idx, p_idx], 0.001);
                 }
             }
+        }
+
+        [TestMethod]
+        public void Water_Alpha_e_FrancoisGarrison_calc_test()
+        {
+            double ae = PHX.Alpha_e_FrancoisGarrison_calc(1, 8, 35, 50, 8);
+            Assert.AreEqual(0.061, ae, 0.001);
+
+            ae = PHX.Alpha_e_FrancoisGarrison_calc(20, 8, 35, 50, 8);
+            Assert.AreEqual(3.504, ae, 0.001);
         }
     }
 }
