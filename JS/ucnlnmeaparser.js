@@ -973,7 +973,108 @@ static SentencesFormats = {
     [SentenceIdentifiers.ZFO]: "hhmmss.ss,hhmmss.ss,c--c",
     [SentenceIdentifiers.ZTG]: "hhmmss.ss,hhmmss.ss,c--c"
 };
+
     // Known proprietary sentences
+	
+	static ProprietarySentenceDescription = {
+    
+	// uWave
+	[ManufacturerCodes.UWV]: {
+		"0": "Device to host: acknowledgement",
+        "1": "Host to device: apply settings",
+		"2": "Host to device: code request to a remote device",
+        "3": "Device to host: answer from the requested remote device to the code request",
+        "4": "Device to host: code request timeout",
+		"5": "Device to host: asynchronous incoming code message from a remote device",
+        "6": "Host to device: Ambient parameters configuration",
+        "7": "Device to host: Ambient parameters",
+		"8": "reserved", 
+        "9": "reserved",
+        "?": "Host to device: get device information",
+		"!": "Device to host: device information",
+        "D": "Host to device: get packet mode settings (obsolete)",
+		"E": "Device to host: packet mode settings",
+		"F": "Host to device: apply packet mode settings",
+		"G": "Host to device: send a packet",
+		"H": "Device to host: packet delivery has failed",
+		"I": "Device to host: packet successfully delivered", 
+        "J": "Device to host: packet received",
+		"K": "Host to device: packet request",
+		"L": "Device to host: packet request timeout",
+		"M": "Device to host: packed request result",
+		"N": "Host to device: get AQ-PNG mode settings",
+		"O": "Both ways: AQ-PNG mode settings"
+	},
+	
+	
+	// Azimuth
+	[ManufacturerCodes.AZM]: {
+		"0": "Device to host: acknowledgement",
+        "1": "Host to device: Start/Stop interrogation",
+        "2": "Responder settings",
+        "3": "Device to host: navigation data and status",
+		"4": "Host to device: depth override",
+        "5": "Host to device: remote user's command",
+        "6": "Host to device: remote broadcast command",
+		"?": "Host to device: get device information",
+		"!": "Device to host: device information",
+		"7": "Host to device: request user's data",
+		"8": "Host to device: set user's data"
+	}				
+		
+		
+	};
+	
+	static ProprietarySentenceParametersDescription = {	
+	
+    // uWave
+	[ManufacturerCodes.UWV]: {
+		"0": "cmdID,errCode",
+        "1": "rxChID,txChID,styPSU,isCmdMode,isACKOnTXFinished,gravityAcc",
+		"2": "txChID,rxChID,rcCmdID",
+        "3": "txChID,rcCmdID,propTime_seс,snr,[value],[azimuth]",
+        "4": "txChID,rcCmdID",
+		"5": "rcCmdID,snr,[azimuth]",
+        "6": "isWriteInFlash,periodMs,isPrs,isTemp,isDpt,isBatV",
+        "7": "prs_mBar,temp_C,dpt_m,batVoltage_V",
+		"8": "x,x", 
+        "9": "x.x,x.x,x.x",
+        "?": "reserved",
+		"!": "serial_number,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,totalCh,styPSU,isPTS,isCmdModeDefault",
+        "D": "reserved",
+		"E": "isPTMode,ptAddress",
+		"F": "isSaveInFlash,isPTMode,ptAddress",
+		"G": "tareget_ptAddress,[maxTries],data",
+		"H": "tareget_ptAddress,triesTaken,data",
+		"I": "tareget_ptAddress,[azimuth],triesTaken,data",
+        "J": "sender_ptAddress,[azimuth],data",
+		"K": "target_ptAddress,pt_itg_dataID",
+		"L": "target_ptAddress,pt_itg_dataID",
+		"M": "x,x,x.x,x.x,x.x",     // IC_D2H_PT_ITG_RESP",
+		"N": "reserved",
+		"O": "[isSaveInFlash],AQPN_ModeID,[periodMs],[rcCmdID],[rcTxID],[rcRxID],[isPT],[pt_targetAddr]",
+	},
+	
+	
+	// Azimuth
+	[ManufacturerCodes.AZM]: {
+		"0": "[cmdID],result",
+        "1": "[addrMask],[sty_PSU],[soundSpeed_mps],[maxDist_m]",
+        "2": "[addr],[sty_PSU]",
+        "3": "status,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]",
+		"4": "depth_m",
+        "5": "cmdID",
+        "6": "cmdID",
+		"?": "[reserved]",
+		"!": "d_type,address,serialNumber,sys_info,sys_version,pts_type,dl_ch_id,ul_ch_id",
+		"7": "[addr],user_data_id",
+		"8": "user_data_id,user_data_value,[reserved]",
+	}		
+		
+	};
+	
+	
+	
     static ProprietarySentencesFormats = {
     // Garmin corporation
     [ManufacturerCodes.GRM]: {
@@ -1633,6 +1734,35 @@ static SentencesFormats = {
             throw new Error(`Unknown talker ID: "${talkerID}"`);
         }
     }
+	
+	static GetProprietarySentenceParametersDescription(manufacturerID, sentenceID) {
+		if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID]) {
+			if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID]) {
+				
+				return UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
+				
+			} else {
+               return "";	
+			}				
+		} else {
+			return "";
+		}		
+	}
+	
+	static GetProprietarySentenceDescription(manufacturerID, sentenceID) {
+		if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID]) {
+			if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID]) {
+				
+				return UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID];
+				
+			} else {
+               return "";	
+			}				
+		} else {
+			return "";
+		}		
+	}
+	
 
     static AddManufacturerToProprietarySentencesBase(manufacturer) {
         if (!UCNLNMEAParser.ProprietarySentencesFormats[manufacturer]) {
