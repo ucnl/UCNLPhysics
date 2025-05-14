@@ -1081,7 +1081,30 @@ static SentencesFormats = {
 	
 	// uWave
 	[ManufacturerCodes.UWV]: {
-		"": "",
+		"0": "c--c,x", 	            // IC_D2H_ACK             $PUWV0,cmdID,errCode
+        "1": "x,x,x.x,x,x,x.x",     // IC_H2D_SETTINGS_WRITE  $PUWV1,rxChID,txChID,styPSU,isCmdMode,isACKOnTXFinished,gravityAcc
+		"2": "x,x,x",               // IC_H2D_RC_REQUEST      $PUWV2,txChID,rxChID,rcCmdID
+        "3": "x,x,x.x,x.x,x.x,x.x", // IC_D2H_RC_RESPONSE     $PUWV3,txChID,rcCmdID,propTime_seс,snr,[value],[azimuth]
+        "4": "x,x",                 // IC_D2H_RC_TIMEOUT      $PUWV4,txChID,rcCmdID
+		"5": "x,x.x,x.x",           // IC_D2H_RC_ASYNC_IN     $PUWV5,rcCmdID,snr,[azimuth]
+        "6": "x,x,x,x,x,x",         // IC_H2D_AMB_DTA_CFG     $PUWV6,isWriteInFlash,periodMs,isPrs,isTemp,isDpt,isBatV
+        "7": "x.x,x.x,x.x,x.x",     // IC_D2H_AMB_DTA         $PUWV7,prs_mBar,temp_C,dpt_m,batVoltage_V
+		"8": "x,x", 
+        "9": "x.x,x.x,x.x",
+        "?": "x",                   // IC_H2D_DINFO_GET       $PUWV?,reserved
+		"!": "c--c,c--c,x,c--c,x,x.x,x,x,x,x.x,x,x", // IC_D2H_DINFO $PUWV!,serial_number,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,totalCh,styPSU,isPTS,isCmdModeDefault                
+        "D": "x",                   // IC_H2D_PT_SETTINGS_READ   $PUWVD,reserved
+		"E": "x,x",                 // IC_D2H_PT_SETTINGS        $PUWVE,isPTMode,ptAddress
+		"F": "x,x,x",               // IC_H2H_PT_SETTINGS_WRITE  $PUWVF,isSaveInFlash,isPTMode,ptAddress
+		"G": "x,x,h--h",            // IC_H2D_PT_SEND            $PUWVG,tareget_ptAddress,[maxTries],data
+		"H": "x,x,h--h",            // IC_D2H_PT_FAILED          $PUWVH,tareget_ptAddress,triesTaken,data
+		"I": "x,x,x.x,h--h",        // IC_D2H_PT_DLVRD           $PUWVI,tareget_ptAddress,[azimuth],triesTaken,data
+        "J": "x,x.x,h--h",          // IC_D2H_PT_RCVD            $PUWVJ,sender_ptAddress,[azimuth],data
+		"K": "x,x",                 // IC_H2D_PT_ITG             $PUWVK,target_ptAddress,pt_itg_dataID
+		"L": "x,x",                 // IC_D2H_PT_TMO             $PUWVL,target_ptAddress,pt_itg_dataID
+		"M": "x,x,x.x,x.x,x.x",     // IC_D2H_PT_ITG_RESP
+		"N": "x",                   // IC_H2D_AQPNG_SETTINGS_READ 'N'   // $PUWVN,reserved
+		"O": "x,x,x,x,x,x,x,x"     // IC_HDH_AQPNG_SETTINGS      'O'   // $PUWVO,[isSaveInFlash],AQPN_ModeID,[periodMs],[rcCmdID],[rcTxID],[rcRxID],[isPT],[pt_targetAddr]
 	},
 	
 	
