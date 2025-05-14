@@ -30,7 +30,7 @@ const TalkerIdentifiers = {
     LA: 'LA',
     LC: 'LC',
     OM: 'OM',
-    P: 'P',
+    P:  'P',
     RA: 'RA',
     SD: 'SD',
     SN: 'SN',
@@ -1077,7 +1077,29 @@ static SentencesFormats = {
     // Furuno
     [ManufacturerCodes.FEC]: {
         ",hdcom": "c--c,c--c,xxxx"
-    }
+    },
+	
+	// uWave
+	[ManufacturerCodes.UWV]: {
+		"": "",
+	},
+	
+	
+	// Azimuth
+	[ManufacturerCodes.AZM]: {
+		"0": "x,x",            // IC_D2H_ACK              '0' // $PAZM0,[cmdID],result
+        "1": "x,x.x,x.x,x.x",  // IC_D2D_STRSTP           '1' // $PAZM1,[addrMask],[sty_PSU],[soundSpeed_mps],[maxDist_m]
+        "2": "x,x.x",          // IC_D2D_RSTS             '2' // $PAZM2,[addr],[sty_PSU]
+        "3": "x,x,x,x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x", // IC_D2H_NDTA             '3' // $PAZM3,status,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]
+		"4": "x.x",            // IC_H2D_DPTOVR           '4' // $PAZM4,depth_m
+        "5": "x",              // IC_D2H_RUCMD            '5' // $PAZM5,cmdID
+        "6": "x",              // IC_D2H_RBCAST           '6' // $PAZM6,cmdID
+		"?": "x",              // IC_H2D_DINFO_GET        '?' // $PAZM?,[reserved]
+		"!": "x,x,c--c,c--c,x,x,x,x", // IC_D2H_DINFO            '!' // $PAZM!,d_type,address,serialNumber,sys_info,sys_version,pts_type,dl_ch_id,ul_ch_id
+		"7": "x,x",            //IC_H2D_CREQ             '7' // $PAZM7,[addr],user_data_id
+		"8": "x,x,x"           //IC_H2D_CSET             '8' // $PAZM8,user_data_id,user_data_value,[reserved]
+	}
+	
 };
 
     // Formatters
