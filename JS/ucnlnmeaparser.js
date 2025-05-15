@@ -17,9 +17,9 @@ const TalkerIdentifiers = {
     ER: 'ER',
     GA: 'GA', 
     GB: 'GB', 
-	GI: 'GI',
+    GI: 'GI',
     GL: 'GL',
-	GN: 'GN',
+    GN: 'GN',
     GP: 'GP',
     GQ: 'GQ',
     HC: 'HC',
@@ -89,6 +89,7 @@ const SentenceIdentifiers = {
     HDM: 'HDM',
     HDT: 'HDT',
     HEV: 'HEV',
+    HFB: 'HFB',
     HSC: 'HSC',
     LCD: 'LCD',
     MSK: 'MSK',
@@ -554,13 +555,13 @@ class UCNLNMEAParser {
         [TalkerIdentifiers.EC]: "Electronic Chart Display & Information System (ECDIS)",
         [TalkerIdentifiers.EP]: "Emergency Position Indicating Beacon (EPIRB)",
         [TalkerIdentifiers.ER]: "Engine Room Monitoring Systems",
-		[TalkerIdentifiers.GA]: "Galileo Positioning System",
-		[TalkerIdentifiers.GB]: "BDS (BeiDou System)",
-		[TalkerIdentifiers.GI]: "NavIC (IRNSS)",
-		[TalkerIdentifiers.GL]: "GLONASS Receiver",
-		[TalkerIdentifiers.GN]: "Global Navigation Satellite System (GNSS)",
+	[TalkerIdentifiers.GA]: "Galileo Positioning System",
+	[TalkerIdentifiers.GB]: "BDS (BeiDou System)",
+	[TalkerIdentifiers.GI]: "NavIC (IRNSS)",
+	[TalkerIdentifiers.GL]: "GLONASS Receiver",
+	[TalkerIdentifiers.GN]: "Global Navigation Satellite System (GNSS)",
         [TalkerIdentifiers.GP]: "Global Positioning System (GPS)",
-		[TalkerIdentifiers.GQ]: "QZSS",
+	[TalkerIdentifiers.GQ]: "QZSS",
         [TalkerIdentifiers.HC]: "Heading - Magnetic Compass",
         [TalkerIdentifiers.HE]: "Heading - North Seeking Gyro",
         [TalkerIdentifiers.HN]: "Heading - Non North Seeking Gyro",
@@ -620,6 +621,7 @@ class UCNLNMEAParser {
         [SentenceIdentifiers.HDG]: "Heading, Deviation & Variation",
         [SentenceIdentifiers.HDM]: "Heading, Magnetic",
         [SentenceIdentifiers.HDT]: "Heading, True",
+	[SentenceIdentifiers.HFB]: "Trawl Headrope to Footrope and Bottom",
         [SentenceIdentifiers.HSC]: "Heading Steering Command",
         [SentenceIdentifiers.LCD]: "Loran-C Signal Data",
         [SentenceIdentifiers.MSK]: "MSK Receiver Interface (for DGPS Beacon Receivers)",
@@ -894,13 +896,12 @@ class UCNLNMEAParser {
 
 static SentenceParametersDescriptions = {
 	
-	[SentenceIdentifiers.AAM]: "Arrival circle passed status,Perpendicular passed at way point status,Arrival circle radius,Units of radius,Waypoint ID",
+    [SentenceIdentifiers.AAM]: "Arrival circle passed status,Perpendicular passed at way point status,Arrival circle radius,Units of radius,Waypoint ID",
     [SentenceIdentifiers.ALM]: "Total number of messages,Sentence number,Satellite PRN,GPS Week number,SV health,Eccentricity,Almanac Reference Time,Inclination Angle,Rate of Right Ascension,Root of semi-major axis,Argument of perigee,Longitude of ascension node,Mean anomaly,F0 Clock Parameter,F1 Clock Parameter",	
-	[SentenceIdentifiers.APA]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID",    
-	[SentenceIdentifiers.APB]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID,Bearing present position to Destination,Magnetic/True,Heading to steer to destination waypoint,Magnetic/True",
+    [SentenceIdentifiers.APA]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID",    
+    [SentenceIdentifiers.APB]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID,Bearing present position to Destination,Magnetic/True,Heading to steer to destination waypoint,Magnetic/True",
     
-	
-	[SentenceIdentifiers.ASD]: "",
+    [SentenceIdentifiers.ASD]: "",
     [SentenceIdentifiers.BEC]: "hhmmss.ss,llll.ll,N=N|S=S,yyyyy.y,N=N|S=S,x.x,E=E|W=W,x.x,T=True|M=Magnetic,x.x,N=nm|K=km,c--c",
     [SentenceIdentifiers.BOD]: "x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,c--c,c--c",
     [SentenceIdentifiers.BWC]: "hhmmss.ss,llll.ll,N=N|S=S,yyyyy.yy,E=E|W=W,x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,x.x,N=nm|K=km,c--c",
@@ -919,42 +920,36 @@ static SentenceParametersDescriptions = {
     [SentenceIdentifiers.FSI]: "xxxxxx,xxxxxx,c,x",
     [SentenceIdentifiers.GBS]: "hhmmss.ss,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
 	
-	
     [SentenceIdentifiers.GGA]: "UTC position fix,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,GPS quality indicator,Number of Sattelites in use,Horizontal dilution of precision,Antenna altitude,Units of antenna altitude,Geoidal separation,Units of geoidal separation,Age of differential GPS data,Differential reference station ID",
-	
-	
-    [SentenceIdentifiers.GLC]: "xxxx,x.x,a,x.x,a,x.x,a,x.x,a,x.x,a,x.x,B=Blink|C=Cycle|S=SNR|A=Valid",
-	
-	
+    [SentenceIdentifiers.GLC]: "GRI Microseconds/10,Master TOA us,Master TOA status,TD 1 us,TD 1 status,TD 2 us,TD 2 status,TD 3 us,TD 3 status,TD 4 us,TD 4 status,TD 5 us,TD 5 status",
     [SentenceIdentifiers.GLL]: "Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,UTC position fix,Status,FAA mode indicator",
-	
-	
-    [SentenceIdentifiers.GNS]: "hhmmss.ss,llll.ll,a,yyyyy.yy,a,с--с,xx,x.x,x.x,x.x,x.x,x,a",
-    [SentenceIdentifiers.GRS]: "hhmmss,x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
-    [SentenceIdentifiers.GSA]: "M=Manual|A=Automatic,x,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,x.x,x.x,x.x,x",
-    [SentenceIdentifiers.GST]: "hhmmss.ss,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
-    [SentenceIdentifiers.GSV]: "x,x,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,",
-    [SentenceIdentifiers.GTD]: "x.x,x.x,x.x,x.x,x.x",
-    [SentenceIdentifiers.GXA]: "hhmmss.ss,llll.ll,a,yyyyy.yy,a,c--c,x",
-    [SentenceIdentifiers.HDG]: "x.x,x.x,a,x.x,a",
-    [SentenceIdentifiers.HDM]: "x.x,M",
-    [SentenceIdentifiers.HDT]: "x.x,T",
+    [SentenceIdentifiers.GNS]: "UTC position fix,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Mode indicator,Total number of satellites in use,HDOP,Antenna altitude,Goeidal separation,Age of differential data,Differential reference station ID,Navigational status",
+    [SentenceIdentifiers.GRS]: "UTC time of associated GGA fix,Used/no used in GGA,Sat 1 residual,Sat 2 residual,Sat 3 residual,Sat 4 residual,Sat 5 residual,Sat 6 residual,Sat 7 residual,Sat 8 residual,Sat 9 residual,Sat 10 residual,Sat 11 residual,Sat 12 residual,...",	
+    [SentenceIdentifiers.GSA]: "Selection mode,Mode,ID sat 1,ID of sat 2,ID of sat 3,ID of sat 4,ID of sat 5,ID of sat 6,ID of sat 7,ID of sat 8,ID of sat 9,ID of sat 10,ID of sat 11,ID of sat 12,PDOP,HDOP,VDOP,System ID",
+    [SentenceIdentifiers.GST]: "UTC time of associated GGA fix,Total RMS of ranges inputs to the navigation solution,Standard deviation (meters) of semi-major axis of error ellipse,Standard deviation (meters) of semi-minor axis of error ellipse,Orientation of semi-major axis of error ellipse (true north degrees),Standard deviation (meters) of latitude error,Standard deviation (meters) of longitude error,Standard deviation (meters) of altitude error",
+    [SentenceIdentifiers.GSV]: "total number of GSV sentences to be transmitted in this group,Sentence number of this GSV message within current group,total number of satellites in view,sat ID or PRN elevation in degrees (-90 to 90),azimuth in degrees to true north (000 to 359),SNR in dB (00-99),sat ID or PRN elevation in degrees (-90 to 90),azimuth in degrees to true north (000 to 359),SNR in dB (00-99),sat ID or PRN elevation in degrees (-90 to 90),azimuth in degrees to true north (000 to 359),SNR in dB (00-99),sat ID or PRN elevation in degrees (-90 to 90),azimuth in degrees to true north (000 to 359),SNR in dB (00-99)",
+    [SentenceIdentifiers.GTD]: "time difference,time difference,time difference,time difference,time difference",
+    [SentenceIdentifiers.GXA]: "UTC of position fix,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Waypoint ID,Satellite number",
+    [SentenceIdentifiers.HDG]: "Magnetic Sensor heading in degrees,Magnetic Deviation, degrees,Magnetic Deviation direction,Magnetic Variation degrees,Magnetic Variation direction",
+    [SentenceIdentifiers.HDM]: "Heading Degrees, magnetic,Magnetic",
+    [SentenceIdentifiers.HDT]: "Heading, degrees True,True",
     [SentenceIdentifiers.HEV]: "x.x,A",
-    [SentenceIdentifiers.HSC]: "x.x,T,x.x,M",
+    [SentenceIdentifiers.HSC]: "Heading Degrees, True,T,Heading Degrees, Magnetic,M",
     [SentenceIdentifiers.LCD]: "xxxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx",
-    [SentenceIdentifiers.MSK]: "xxx.x,xx,xxx,xx,N",
-    [SentenceIdentifiers.MSS]: "",
-    [SentenceIdentifiers.MTW]: "x.x,C=C|K=K|F=F",
-    [SentenceIdentifiers.MWD]: "",
+    [SentenceIdentifiers.MSK]: "Beacon frequency to use 283.5-325.0 kHz,Frequency mode,Beacon bit rate,Bitrate mode,Interval for MSS message status",
+    [SentenceIdentifiers.MSS]: "Signal strength (dB 1uV),Signal to noise ratio (dB),Beacon frequency 283.5-325.0 kHz,Beacon data rate,Channel number",
+    [SentenceIdentifiers.MTW]: "Temperature, degrees,Units",
+    [SentenceIdentifiers.MWD]: "Wind Direction 0 to 359.9 degrees,Reference True/Mangetic,Wind Direction 0 to 359.9 degrees,Reference True/Mangetic,Wind Speed,Units,Wind Speed,Units",
+	
     [SentenceIdentifiers.MWV]: "x.x,a,x.x,a,A",
     [SentenceIdentifiers.OLN]: "aa,xxx,xxx,aa,xxx,xxx,aa,xxx,xxx",
     [SentenceIdentifiers.OSD]: "x.x,A,x.x,a,x.x,a,x.x,x.x,a",
     [SentenceIdentifiers.RMA]: "A,llll.ll,N=N|S=S,yyyyy.yy,E=E|W=W,x.x,x.x,x.x,x.x,x.x,a",
     [SentenceIdentifiers.RMB]: "A,x.x,a,c--c,c--c,llll.ll,a,yyyyy.yy,a,x.x,x.x,x.x,A,A",
 	
-	[SentenceIdentifiers.RMC]: "UTC position fix,Status,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Speed over ground,Course over ground,Date,Magnetic variation,E/W hemisphere,a,...",
+    [SentenceIdentifiers.RMC]: "UTC position fix,Status,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Speed over ground,Course over ground,Date,Magnetic variation,E/W hemisphere,a,...",
 	
-	[SentenceIdentifiers.ROO]: "c---c,....",
+    [SentenceIdentifiers.ROO]: "c---c,....",
     [SentenceIdentifiers.ROT]: "x.x,A",
     [SentenceIdentifiers.RPM]: "a,x,x.x,x.x,A",
     [SentenceIdentifiers.RSA]: "x.x,A,x.x,A",
@@ -981,7 +976,7 @@ static SentenceParametersDescriptions = {
     [SentenceIdentifiers.XDR]: "a,x.x,a,c--c,a,x.x,a,c--c",
     [SentenceIdentifiers.XTE]: "A,A,x.x,a,N",
     [SentenceIdentifiers.XTR]: "x.x,a,N",
-    [SentenceIdentifiers.ZDA]: "hhmmss.ss,xx,xx,xxxx,xx,xx",
+    [SentenceIdentifiers.ZDA]: "UTC time,Day 01 to 31,Month 01 to 12,Year (4 digits),Local zone description,Local zone minutes description",
     [SentenceIdentifiers.ZDL]: "hhmmss.ss,hhmmss.ss,c--c",
     [SentenceIdentifiers.ZFO]: "hhmmss.ss,hhmmss.ss,c--c",
     [SentenceIdentifiers.ZTG]: "hhmmss.ss,hhmmss.ss,c--c"
@@ -1026,12 +1021,13 @@ static SentencesFormats = {
     [SentenceIdentifiers.HDM]: "x.x,M",
     [SentenceIdentifiers.HDT]: "x.x,T",
     [SentenceIdentifiers.HEV]: "x.x,A",
+    [SentenceIdentifiers.HFB]: "x.x,M,y.y,M",
     [SentenceIdentifiers.HSC]: "x.x,T,x.x,M",
     [SentenceIdentifiers.LCD]: "xxxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx",
     [SentenceIdentifiers.MSK]: "xxx.x,xx,xxx,xx,N",
-    [SentenceIdentifiers.MSS]: "",
+    [SentenceIdentifiers.MSS]: "xx,xx,xxx,xxx,xxx",
     [SentenceIdentifiers.MTW]: "x.x,C=C|K=K|F=F",
-    [SentenceIdentifiers.MWD]: "",
+    [SentenceIdentifiers.MWD]: "x.x,a,x.x,a,x.x,a,x.x,a",
     [SentenceIdentifiers.MWV]: "x.x,a,x.x,a,A",
     [SentenceIdentifiers.OLN]: "aa,xxx,xxx,aa,xxx,xxx,aa,xxx,xxx",
     [SentenceIdentifiers.OSD]: "x.x,A,x.x,a,x.x,a,x.x,x.x,a",
@@ -1071,104 +1067,99 @@ static SentencesFormats = {
     [SentenceIdentifiers.ZTG]: "hhmmss.ss,hhmmss.ss,c--c"
 };
 
-    // Known proprietary sentences
+ // Known proprietary sentences
 	
-	static ProprietarySentenceDescription = {
+ static ProprietarySentenceDescription = {
     
-	// uWave
-	[ManufacturerCodes.UWV]: {
-		"0": "Device to host: acknowledgement",
+ // uWave
+[ManufacturerCodes.UWV]: {
+	"0": "Device to host: acknowledgement",
         "1": "Host to device: apply settings",
-		"2": "Host to device: code request to a remote device",
+	"2": "Host to device: code request to a remote device",
         "3": "Device to host: answer from the requested remote device to the code request",
         "4": "Device to host: code request timeout",
-		"5": "Device to host: asynchronous incoming code message from a remote device",
+	"5": "Device to host: asynchronous incoming code message from a remote device",
         "6": "Host to device: Ambient parameters configuration",
         "7": "Device to host: Ambient parameters",
-		"8": "reserved", 
+	"8": "reserved", 
         "9": "reserved",
         "?": "Host to device: get device information",
-		"!": "Device to host: device information",
+	"!": "Device to host: device information",
         "D": "Host to device: get packet mode settings (obsolete)",
-		"E": "Device to host: packet mode settings",
-		"F": "Host to device: apply packet mode settings",
-		"G": "Host to device: send a packet",
-		"H": "Device to host: packet delivery has failed",
-		"I": "Device to host: packet successfully delivered", 
+	"E": "Device to host: packet mode settings",
+	"F": "Host to device: apply packet mode settings",
+	"G": "Host to device: send a packet",
+	"H": "Device to host: packet delivery has failed",
+	"I": "Device to host: packet successfully delivered", 
         "J": "Device to host: packet received",
-		"K": "Host to device: packet request",
-		"L": "Device to host: packet request timeout",
-		"M": "Device to host: packed request result",
-		"N": "Host to device: get AQ-PNG mode settings",
-		"O": "Both ways: AQ-PNG mode settings"
-	},
+	"K": "Host to device: packet request",
+	"L": "Device to host: packet request timeout",
+	"M": "Device to host: packed request result",
+	"N": "Host to device: get AQ-PNG mode settings",
+	"O": "Both ways: AQ-PNG mode settings"
+   },
 	
 	
-	// Azimuth
-	[ManufacturerCodes.AZM]: {
-		"0": "Device to host: acknowledgement",
+// Azimuth
+[ManufacturerCodes.AZM]: {
+	"0": "Device to host: acknowledgement",
         "1": "Host to device: Start/Stop interrogation",
         "2": "Responder settings",
         "3": "Device to host: navigation data and status",
-		"4": "Host to device: depth override",
+	"4": "Host to device: depth override",
         "5": "Host to device: remote user's command",
         "6": "Host to device: remote broadcast command",
-		"?": "Host to device: get device information",
-		"!": "Device to host: device information",
-		"7": "Host to device: request user's data",
-		"8": "Host to device: set user's data"
-	}				
-		
-		
-	};
+	"?": "Host to device: get device information",
+	"!": "Device to host: device information",
+	"7": "Host to device: request user's data",
+	"8": "Host to device: set user's data"
+   }				
+};
 	
-	static ProprietarySentenceParametersDescription = {	
+static ProprietarySentenceParametersDescription = {	
 	
-    // uWave
-	[ManufacturerCodes.UWV]: {
-		"0": "cmdID,errCode",
+// uWave
+[ManufacturerCodes.UWV]: {
+	"0": "cmdID,errCode",
         "1": "rxChID,txChID,styPSU,isCmdMode,isACKOnTXFinished,gravityAcc",
-		"2": "txChID,rxChID,rcCmdID",
+	"2": "txChID,rxChID,rcCmdID",
         "3": "txChID,rcCmdID,propTime_seс,snr,[value],[azimuth]",
         "4": "txChID,rcCmdID",
-		"5": "rcCmdID,snr,[azimuth]",
+	"5": "rcCmdID,snr,[azimuth]",
         "6": "isWriteInFlash,periodMs,isPrs,isTemp,isDpt,isBatV",
         "7": "prs_mBar,temp_C,dpt_m,batVoltage_V",
-		"8": "x,x", 
+	"8": "x,x", 
         "9": "x.x,x.x,x.x",
         "?": "reserved",
-		"!": "serial_number,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,totalCh,styPSU,isPTS,isCmdModeDefault",
+	"!": "serial_number,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,totalCh,styPSU,isPTS,isCmdModeDefault",
         "D": "reserved",
-		"E": "isPTMode,ptAddress",
-		"F": "isSaveInFlash,isPTMode,ptAddress",
-		"G": "tareget_ptAddress,[maxTries],data",
-		"H": "tareget_ptAddress,triesTaken,data",
-		"I": "tareget_ptAddress,[azimuth],triesTaken,data",
+	"E": "isPTMode,ptAddress",
+	"F": "isSaveInFlash,isPTMode,ptAddress",
+	"G": "tareget_ptAddress,[maxTries],data",
+	"H": "tareget_ptAddress,triesTaken,data",
+	"I": "tareget_ptAddress,[azimuth],triesTaken,data",
         "J": "sender_ptAddress,[azimuth],data",
-		"K": "target_ptAddress,pt_itg_dataID",
-		"L": "target_ptAddress,pt_itg_dataID",
-		"M": "x,x,x.x,x.x,x.x",     // IC_D2H_PT_ITG_RESP",
-		"N": "reserved",
-		"O": "[isSaveInFlash],AQPN_ModeID,[periodMs],[rcCmdID],[rcTxID],[rcRxID],[isPT],[pt_targetAddr]",
-	},
-	
-	
-	// Azimuth
-	[ManufacturerCodes.AZM]: {
-		"0": "[cmdID],result",
-        "1": "[addrMask],[sty_PSU],[soundSpeed_mps],[maxDist_m]",
-        "2": "[addr],[sty_PSU]",
-        "3": "status,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]",
-		"4": "depth_m",
-        "5": "cmdID",
-        "6": "cmdID",
-		"?": "[reserved]",
-		"!": "d_type,address,serialNumber,sys_info,sys_version,pts_type,dl_ch_id,ul_ch_id",
-		"7": "[addr],user_data_id",
-		"8": "user_data_id,user_data_value,[reserved]",
-	}		
-		
-	};
+	"K": "target_ptAddress,pt_itg_dataID",
+	"L": "target_ptAddress,pt_itg_dataID",
+	"M": "x,x,x.x,x.x,x.x",     // IC_D2H_PT_ITG_RESP",
+	"N": "reserved",
+	"O": "[isSaveInFlash],AQPN_ModeID,[periodMs],[rcCmdID],[rcTxID],[rcRxID],[isPT],[pt_targetAddr]",
+ },
+   // Azimuth
+  [ManufacturerCodes.AZM]: {
+	"0": "[cmdID],result",
+	"1": "[addrMask],[sty_PSU],[soundSpeed_mps],[maxDist_m]",
+	"2": "[addr],[sty_PSU]",
+	"3": "status,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]",
+	"4": "depth_m",
+	"5": "cmdID",
+	"6": "cmdID",
+	"?": "[reserved]",
+	"!": "d_type,address,serialNumber,sys_info,sys_version,pts_type,dl_ch_id,ul_ch_id",
+	"7": "[addr],user_data_id",
+	"8": "user_data_id,user_data_value,[reserved]",
+	}	
+   };
 	
 	
 	
@@ -1832,73 +1823,68 @@ static SentencesFormats = {
         }
     }
 
-static GetSentenceParametersDescription(sentenceID) {
-	
+     static GetSentenceParametersDescription(sentenceID) {
 	if (UCNLNMEAParser.SentenceParametersDescriptions[sentenceID]) {
-    return UCNLNMEAParser.SentenceParametersDescriptions[sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
+            return UCNLNMEAParser.SentenceParametersDescriptions[sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
 	} else {
-		return "";
+	    return "";
 	}		
-}
+     }
 
-static GetProprietarySentenceParametersDescription(manufacturerID, sentenceID) {
-	if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID]) {
-		if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID]) {
-			
-			return UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
-			
-		} else {
-       return "";	
-		}				
+      static GetProprietarySentenceParametersDescription(manufacturerID, sentenceID) {
+	  if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID]) {
+	     if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID]) {
+		return UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
+	     } else {
+                return "";	
+	   }				
 	} else {
-		return "";
+	    return "";
 	}		
-}
+   }
 
-static GetProprietarySentenceDescription(manufacturerID, sentenceID) {
+   static GetProprietarySentenceDescription(manufacturerID, sentenceID) {
 	if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID]) {
-		if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID]) {
-			
-			return UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID];
-			
-		} else {
-       return "";	
-		}				
+	    if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID]) {
+		return UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID];	
+	    } else {
+                return "";	
+	    }				
 	} else {
-		return "";
+	    return "";
 	}		
-}
+   }
 	
 
-    static AddManufacturerToProprietarySentencesBase(manufacturer) {
-        if (!UCNLNMEAParser.ProprietarySentencesFormats[manufacturer]) {
-            UCNLNMEAParser.ProprietarySentencesFormats[manufacturer] = {};
-        } else {
-            throw new Error(`Base already contains manufacturer "${manufacturer}"`);
-        }
-    }
+   static AddManufacturerToProprietarySentencesBase(manufacturer) {
+       if (!UCNLNMEAParser.ProprietarySentencesFormats[manufacturer]) {
+           UCNLNMEAParser.ProprietarySentencesFormats[manufacturer] = {};
+       } else {
+           throw new Error(`Base already contains manufacturer "${manufacturer}"`);
+       }
+   }
 
-    static AddProprietarySentenceDescription(manufacturer, sentenceIDString, formatString) {
-        if (UCNLNMEAParser.ProprietarySentencesFormats[manufacturer]) {
-            if (!UCNLNMEAParser.ProprietarySentencesFormats[manufacturer][sentenceIDString]) {
-                UCNLNMEAParser.ProprietarySentencesFormats[manufacturer][sentenceIDString] = formatString;
-            } else {
-                throw new Error(`Specified sentence ID "${sentenceIDString}" already exists in "${manufacturer}" sentences list`);
-            }
-        } else {
-            throw new Error(`Specified manufacturer "${manufacturer}" not exists in base, add it first`);
-        }
-    }
+   static AddProprietarySentenceDescription(manufacturer, sentenceIDString, formatString) {
+       if (UCNLNMEAParser.ProprietarySentencesFormats[manufacturer]) {
+           if (!UCNLNMEAParser.ProprietarySentencesFormats[manufacturer][sentenceIDString]) {
+               UCNLNMEAParser.ProprietarySentencesFormats[manufacturer][sentenceIDString] = formatString;
+           } else {
+               throw new Error(`Specified sentence ID "${sentenceIDString}" already exists in "${manufacturer}" sentences list`);
+           }
+       } else {
+           throw new Error(`Specified manufacturer "${manufacturer}" not exists in base, add it first`);
+       }
+   }
 
-    static GetDatumDescription(datumKey) {
-        return UCNLNMEAParser.Datums[datumKey] || '';
-    }
+   static GetDatumDescription(datumKey) {
+       return UCNLNMEAParser.Datums[datumKey] || '';
+   }
 
-    static GetCheckSum(source) {
-        let result = 0;
-        for (let i = 0; i < source.length; i++) {
-            result ^= source.charCodeAt(i);
-        }
-        return result;
-    }
+   static GetCheckSum(source) {
+       let result = 0;
+       for (let i = 0; i < source.length; i++) {
+           result ^= source.charCodeAt(i);
+       }
+       return result;
+   }
 }
