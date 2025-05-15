@@ -612,6 +612,7 @@ class UCNLNMEAParser {
         [SentenceIdentifiers.GGA]: "Global Positioning System Fix Data",
         [SentenceIdentifiers.GLC]: "Geographic Position, Loran-C",
         [SentenceIdentifiers.GLL]: "Geographic Position, Latitude/Longitude",
+	[SentenceIdentifiers.GNS]: "Fix data",
         [SentenceIdentifiers.GRS]: "GPS Range Residuals",
         [SentenceIdentifiers.GSA]: "GPS DOP and Active Satellites",
         [SentenceIdentifiers.GST]: "GPS Pseudorange Noise Statistics",
