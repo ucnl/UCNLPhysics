@@ -950,7 +950,7 @@ static SentenceParametersDescriptions = {
     [SentenceIdentifiers.RMC]: "UTC position fix,Status,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Speed over ground,Course over ground,Date,Magnetic variation,E/W hemisphere,a,...",
 	
     [SentenceIdentifiers.ROO]: "c---c,....",
-    [SentenceIdentifiers.ROT]: "x.x,A",
+    [SentenceIdentifiers.ROT]: "Rate Of Turn (degrees per minute) \"-\" means bow turns to port,Status",
     [SentenceIdentifiers.RPM]: "a,x,x.x,x.x,A",
     [SentenceIdentifiers.RSA]: "x.x,A,x.x,A",
     [SentenceIdentifiers.RSD]: "x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,a,a",
@@ -966,7 +966,7 @@ static SentenceParametersDescriptions = {
     [SentenceIdentifiers.VHW]: "x.x,T,x.x,M,x.x,N,x.x,K",
     [SentenceIdentifiers.VLW]: "x.x,N,x.x,N",
     [SentenceIdentifiers.VPW]: "x.x,N,x.x,M",
-    [SentenceIdentifiers.VTG]: "x.x,T,x.x,M,x.x,N=nk/h,x.x,K=Km/h,a",
+    [SentenceIdentifiers.VTG]: "Course over ground (degrees),True,Course over ground (degrees),Magnetic,Speed over ground,Units,Speed over ground,Units,FAA mode indicator",
     [SentenceIdentifiers.VWR]: "x.x,a,x.x,N,x.x,M,x.x,K",
     [SentenceIdentifiers.WCV]: "x.x,N,c--c",
     [SentenceIdentifiers.WDC]: "",
