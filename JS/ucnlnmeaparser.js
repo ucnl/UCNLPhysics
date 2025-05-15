@@ -1831,34 +1831,43 @@ static SentencesFormats = {
             throw new Error(`Unknown talker ID: "${talkerID}"`);
         }
     }
+
+static GetSentenceParametersDescription(sentenceID) {
 	
-	static GetProprietarySentenceParametersDescription(manufacturerID, sentenceID) {
-		if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID]) {
-			if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID]) {
-				
-				return UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
-				
-			} else {
-               return "";	
-			}				
+	if (UCNLNMEAParser.SentenceParametersDescriptions[sentenceID]) {
+    return UCNLNMEAParser.SentenceParametersDescriptions[sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
+	} else {
+		return "";
+	}		
+}
+
+static GetProprietarySentenceParametersDescription(manufacturerID, sentenceID) {
+	if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID]) {
+		if (UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID]) {
+			
+			return UCNLNMEAParser.ProprietarySentenceParametersDescription[manufacturerID][sentenceID].split(UCNLNMEAParser.formatTokenDelimiters[0]);
+			
 		} else {
-			return "";
-		}		
-	}
-	
-	static GetProprietarySentenceDescription(manufacturerID, sentenceID) {
-		if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID]) {
-			if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID]) {
-				
-				return UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID];
-				
-			} else {
-               return "";	
-			}				
+       return "";	
+		}				
+	} else {
+		return "";
+	}		
+}
+
+static GetProprietarySentenceDescription(manufacturerID, sentenceID) {
+	if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID]) {
+		if (UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID]) {
+			
+			return UCNLNMEAParser.ProprietarySentenceDescription[manufacturerID][sentenceID];
+			
 		} else {
-			return "";
-		}		
-	}
+       return "";	
+		}				
+	} else {
+		return "";
+	}		
+}
 	
 
     static AddManufacturerToProprietarySentencesBase(manufacturer) {
