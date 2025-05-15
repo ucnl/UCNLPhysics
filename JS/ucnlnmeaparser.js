@@ -891,6 +891,103 @@ class UCNLNMEAParser {
     222: "Zanderij (Suriname)"
 };
 
+
+static SentenceParametersDescriptions = {
+	
+	[SentenceIdentifiers.AAM]: "Arrival circle passed status,Perpendicular passed at way point status,Arrival circle radius,Units of radius,Waypoint ID",
+    [SentenceIdentifiers.ALM]: "Total number of messages,Sentence number,Satellite PRN,GPS Week number,SV health,Eccentricity,Almanac Reference Time,Inclination Angle,Rate of Right Ascension,Root of semi-major axis,Argument of perigee,Longitude of ascension node,Mean anomaly,F0 Clock Parameter,F1 Clock Parameter",	
+	[SentenceIdentifiers.APA]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID",    
+	[SentenceIdentifiers.APB]: "Status,Status,Cross Track Error Magnitude,Direction to steer L or R,Cross Track Units,Status,Status,Bearing origin to destination,Magnetic/True,Destination Waypoint ID,Bearing present position to Destination,Magnetic/True,Heading to steer to destination waypoint,Magnetic/True",
+    
+	
+	[SentenceIdentifiers.ASD]: "",
+    [SentenceIdentifiers.BEC]: "hhmmss.ss,llll.ll,N=N|S=S,yyyyy.y,N=N|S=S,x.x,E=E|W=W,x.x,T=True|M=Magnetic,x.x,N=nm|K=km,c--c",
+    [SentenceIdentifiers.BOD]: "x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,c--c,c--c",
+    [SentenceIdentifiers.BWC]: "hhmmss.ss,llll.ll,N=N|S=S,yyyyy.yy,E=E|W=W,x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,x.x,N=nm|K=km,c--c",
+    [SentenceIdentifiers.BWR]: "hhmmss.ss,llll.ll,N=N|S=S,yyyyy.yy,E=E|W=W,x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,x.x,N=nm|K=km,c--c",
+    [SentenceIdentifiers.BWW]: "x.x,T=True|M=Magnetic,x.x,T=True|M=Magnetic,c--c,c--c",
+    [SentenceIdentifiers.DBK]: "x.x,f=ft|M=m,x.x,f=ft|M=m,x.x,F",
+    [SentenceIdentifiers.DBS]: "x.x,f=ft|M=m,x.x,f=ft|M=m,x.x,F",
+    [SentenceIdentifiers.DBT]: "x.x,f=ft|M=m,x.x,f=ft|M=m,x.x,F",
+    [SentenceIdentifiers.DCN]: "xx,cc,x.x,A,cc,x.x,A,cc,x.x,A,A,A,A,x.x,N=nm|K=km,1=Normal pattern|2=Lane identification pattern|3=Lane identification transmissions",
+    [SentenceIdentifiers.DPT]: "x.x,x.x",
+    [SentenceIdentifiers.DSC]: "",
+    [SentenceIdentifiers.DSE]: "",
+    [SentenceIdentifiers.DSI]: "",
+    [SentenceIdentifiers.DSR]: "",
+    [SentenceIdentifiers.DTM]: "xxx,x,xx.xxxx,x,xx.xxxx,x,c--c,xxx",
+    [SentenceIdentifiers.FSI]: "xxxxxx,xxxxxx,c,x",
+    [SentenceIdentifiers.GBS]: "hhmmss.ss,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
+	
+	
+    [SentenceIdentifiers.GGA]: "UTC position fix,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,GPS quality indicator,Number of Sattelites in use,Horizontal dilution of precision,Antenna altitude,Units of antenna altitude,Geoidal separation,Units of geoidal separation,Age of differential GPS data,Differential reference station ID",
+	
+	
+    [SentenceIdentifiers.GLC]: "xxxx,x.x,a,x.x,a,x.x,a,x.x,a,x.x,a,x.x,B=Blink|C=Cycle|S=SNR|A=Valid",
+	
+	
+    [SentenceIdentifiers.GLL]: "Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,UTC position fix,Status,FAA mode indicator",
+	
+	
+    [SentenceIdentifiers.GNS]: "hhmmss.ss,llll.ll,a,yyyyy.yy,a,с--с,xx,x.x,x.x,x.x,x.x,x,a",
+    [SentenceIdentifiers.GRS]: "hhmmss,x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
+    [SentenceIdentifiers.GSA]: "M=Manual|A=Automatic,x,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,x.x,x.x,x.x,x",
+    [SentenceIdentifiers.GST]: "hhmmss.ss,x.x,x.x,x.x,x.x,x.x,x.x,x.x",
+    [SentenceIdentifiers.GSV]: "x,x,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,xx,xx,xxx,xx,",
+    [SentenceIdentifiers.GTD]: "x.x,x.x,x.x,x.x,x.x",
+    [SentenceIdentifiers.GXA]: "hhmmss.ss,llll.ll,a,yyyyy.yy,a,c--c,x",
+    [SentenceIdentifiers.HDG]: "x.x,x.x,a,x.x,a",
+    [SentenceIdentifiers.HDM]: "x.x,M",
+    [SentenceIdentifiers.HDT]: "x.x,T",
+    [SentenceIdentifiers.HEV]: "x.x,A",
+    [SentenceIdentifiers.HSC]: "x.x,T,x.x,M",
+    [SentenceIdentifiers.LCD]: "xxxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx,xxx",
+    [SentenceIdentifiers.MSK]: "xxx.x,xx,xxx,xx,N",
+    [SentenceIdentifiers.MSS]: "",
+    [SentenceIdentifiers.MTW]: "x.x,C=C|K=K|F=F",
+    [SentenceIdentifiers.MWD]: "",
+    [SentenceIdentifiers.MWV]: "x.x,a,x.x,a,A",
+    [SentenceIdentifiers.OLN]: "aa,xxx,xxx,aa,xxx,xxx,aa,xxx,xxx",
+    [SentenceIdentifiers.OSD]: "x.x,A,x.x,a,x.x,a,x.x,x.x,a",
+    [SentenceIdentifiers.RMA]: "A,llll.ll,N=N|S=S,yyyyy.yy,E=E|W=W,x.x,x.x,x.x,x.x,x.x,a",
+    [SentenceIdentifiers.RMB]: "A,x.x,a,c--c,c--c,llll.ll,a,yyyyy.yy,a,x.x,x.x,x.x,A,A",
+	
+	[SentenceIdentifiers.RMC]: "UTC position fix,Status,Latitude,N/S Hemisphere,Longitude,E/W Hemisphere,Speed over ground,Course over ground,Date,Magnetic variation,E/W hemisphere,a,...",
+	
+	[SentenceIdentifiers.ROO]: "c---c,....",
+    [SentenceIdentifiers.ROT]: "x.x,A",
+    [SentenceIdentifiers.RPM]: "a,x,x.x,x.x,A",
+    [SentenceIdentifiers.RSA]: "x.x,A,x.x,A",
+    [SentenceIdentifiers.RSD]: "x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,a,a",
+    [SentenceIdentifiers.RTE]: "x.x,x.x,a,c--c,c--c,...",
+    [SentenceIdentifiers.SFI]: "x.x,x.x,xxxxxx,c,xxxxxx,c",
+    [SentenceIdentifiers.STN]: "xx",
+    [SentenceIdentifiers.TLL]: "xx,llll.lll,a,yyyyy.yyy,a,c--c,hhmmss.ss,a,a",
+    [SentenceIdentifiers.TRF]: "hhmmss.ss,xxxxxx,llll.ll,a,yyyyy.yy,a,x.x,x.x,x.x,x.x,xxx,A",
+    [SentenceIdentifiers.TTM]: "xx,x.x,x.x,T=True|R=Relative,x.x,x.x,T=True|R=Relative,x.x,x.x,K=Km|N=Knots|S=Statue miles,c--c,L=Lost|Q=Query|T=Tracking,a,hhmmss.ss,A=Automatic|M=Manual",
+    [SentenceIdentifiers.TXT]: "x,x,x,c--c",
+    [SentenceIdentifiers.VBW]: "x.x,x.x,A,x.x,x.x,A",
+    [SentenceIdentifiers.VDR]: "x.x,T,x.x,M,x.x,N",
+    [SentenceIdentifiers.VHW]: "x.x,T,x.x,M,x.x,N,x.x,K",
+    [SentenceIdentifiers.VLW]: "x.x,N,x.x,N",
+    [SentenceIdentifiers.VPW]: "x.x,N,x.x,M",
+    [SentenceIdentifiers.VTG]: "x.x,T,x.x,M,x.x,N=nk/h,x.x,K=Km/h,a",
+    [SentenceIdentifiers.VWR]: "x.x,a,x.x,N,x.x,M,x.x,K",
+    [SentenceIdentifiers.WCV]: "x.x,N,c--c",
+    [SentenceIdentifiers.WDC]: "",
+    [SentenceIdentifiers.WDR]: "",
+    [SentenceIdentifiers.WNC]: "x.x,N,x.x,K,c--c,c--c",
+    [SentenceIdentifiers.WPL]: "llll.ll,a,yyyyy.yy,a,c--c",
+    [SentenceIdentifiers.XDR]: "a,x.x,a,c--c,a,x.x,a,c--c",
+    [SentenceIdentifiers.XTE]: "A,A,x.x,a,N",
+    [SentenceIdentifiers.XTR]: "x.x,a,N",
+    [SentenceIdentifiers.ZDA]: "hhmmss.ss,xx,xx,xxxx,xx,xx",
+    [SentenceIdentifiers.ZDL]: "hhmmss.ss,hhmmss.ss,c--c",
+    [SentenceIdentifiers.ZFO]: "hhmmss.ss,hhmmss.ss,c--c",
+    [SentenceIdentifiers.ZTG]: "hhmmss.ss,hhmmss.ss,c--c"
+	
+};
+
     // Sentences formats
 static SentencesFormats = {
     [SentenceIdentifiers.AAM]: "A=Arrival circled entered|V=V,A=Perpendicular passed at way point|V=V,x.x,N=nm|K=km,c--c",
@@ -1208,13 +1305,13 @@ static SentencesFormats = {
 		"O": "x,x,x,x,x,x,x,x"     // IC_HDH_AQPNG_SETTINGS      'O'   // $PUWVO,[isSaveInFlash],AQPN_ModeID,[periodMs],[rcCmdID],[rcTxID],[rcRxID],[isPT],[pt_targetAddr]
 	},
 	
+	// Azimuth       
 	
-	// Azimuth
 	[ManufacturerCodes.AZM]: {
-		"0": "x,x",            // IC_D2H_ACK              '0' // $PAZM0,[cmdID],result
+		"0": "0=ACK|1=STRSTP|2=RSTS|3=NDTA|4=DPTOVR|5=RUCMD|6=RBCAST|7=CREQ|8=CSET|?=DINFO_GET|!=DINFO|-=ANY,0=OK|1=Invalid syntax|2=Unsupported|3=Argument out of range|4=Invalid operation|5=Value unavailible|6=Tx is busy|7=Rx is busy",            // IC_D2H_ACK              '0' // $PAZM0,[cmdID],result
         "1": "x,x.x,x.x,x.x",  // IC_D2D_STRSTP           '1' // $PAZM1,[addrMask],[sty_PSU],[soundSpeed_mps],[maxDist_m]
         "2": "x,x.x",          // IC_D2D_RSTS             '2' // $PAZM2,[addr],[sty_PSU]
-        "3": "x,x,x,x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x", // IC_D2H_NDTA             '3' // $PAZM3,status,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]
+        "3": "0=Local data only|1=Remote response|2=Remote timeout|3=NDTA_REMB,x,x,x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x,x.x", // IC_D2H_NDTA             '3' // $PAZM3,0=Local data only|1=Remote response|2=Remote timeout|3=NDTA_REMB,[addr],[rq_code],[rs_code],[msr_dB],[p_time],[s_range],[p_range],[r_dpt],[a],[e],[lprs],[ltmp],[lhdn],[lpts],[lrol]
 		"4": "x.x",            // IC_H2D_DPTOVR           '4' // $PAZM4,depth_m
         "5": "x",              // IC_D2H_RUCMD            '5' // $PAZM5,cmdID
         "6": "x",              // IC_D2H_RBCAST           '6' // $PAZM6,cmdID
