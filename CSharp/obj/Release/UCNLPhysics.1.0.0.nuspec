@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>UCNLPhysics</id>
+    <version>1.0.0</version>
+    <authors>UCNL Team</authors>
+    <description>UCNL UCNLPhysics library</description>
+    <copyright>Underwater communication &amp; navigation laboratory, LLC</copyright>
+    <tags>UCNL UCNLPhysics</tags>
+    <repository type="git" commit="6a1c9c9d044e47cf285b8704d8e5ab237d8e9a36" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="System.IO.Ports" version="10.0.5" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.IO.Ports" version="10.0.5" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\bin\Release\net8.0\UCNLPhysics.dll" target="lib\net8.0\UCNLPhysics.dll" />
+    <file src="D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\bin\Release\netstandard2.0\UCNLPhysics.dll" target="lib\netstandard2.0\UCNLPhysics.dll" />
+  </files>
+</package>

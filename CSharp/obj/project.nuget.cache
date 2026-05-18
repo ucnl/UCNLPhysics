@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "sGzyjnSR2IQ=",
+  "success": true,
+  "projectFilePath": "D:\\SynologyDrive\\Drive\\UCNL_HOSTS\\net\\UCNLPhysics\\CSharp\\UCNLPhysics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.android-arm.runtime.native.system.io.ports\\10.0.5\\runtime.android-arm.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.android-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.android-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.android-x64.runtime.native.system.io.ports\\10.0.5\\runtime.android-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.android-x86.runtime.native.system.io.ports\\10.0.5\\runtime.android-x86.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\10.0.5\\runtime.linux-arm.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-bionic-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-bionic-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-bionic-x64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-bionic-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-musl-arm.runtime.native.system.io.ports\\10.0.5\\runtime.linux-musl-arm.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-musl-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-musl-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-musl-x64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-musl-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\10.0.5\\runtime.linux-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.maccatalyst-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.maccatalyst-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.maccatalyst-x64.runtime.native.system.io.ports\\10.0.5\\runtime.maccatalyst-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.native.system.io.ports\\10.0.5\\runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\10.0.5\\runtime.osx-arm64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\10.0.5\\runtime.osx-x64.runtime.native.system.io.ports.10.0.5.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\system.io.ports\\10.0.5\\system.io.ports.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

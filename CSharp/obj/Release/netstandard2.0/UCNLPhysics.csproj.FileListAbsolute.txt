@@ -1,0 +1,11 @@
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\bin\Release\netstandard2.0\UCNLPhysics.deps.json
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\bin\Release\netstandard2.0\UCNLPhysics.dll
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\bin\Release\netstandard2.0\UCNLPhysics.pdb
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.csproj.AssemblyReference.cache
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.GeneratedMSBuildEditorConfig.editorconfig
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.AssemblyInfoInputs.cache
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.AssemblyInfo.cs
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.csproj.CoreCompileInputs.cache
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.sourcelink.json
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.dll
+D:\SynologyDrive\Drive\UCNL_HOSTS\net\UCNLPhysics\CSharp\obj\Release\netstandard2.0\UCNLPhysics.pdb
